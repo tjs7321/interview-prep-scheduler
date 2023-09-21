@@ -25,6 +25,7 @@ node_modules
 jspm_packages
 server/instance
 instance
+/server/instance/app.db
 
 
 # Optional npm cache directory
