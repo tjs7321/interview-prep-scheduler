@@ -1,15 +1,17 @@
 import React, {useState} from "react";
 import { Route, Switch } from "react-router-dom";
-import Home from './Home';
+import Home from '../pages/Home';
 import NavBar from './NavBar';
-import Calendar from './Calendar';
-import Friends from './Friends';
-import NewPrepSessionForm from "./NewPrepSessionForm";
+import Calendar from '../pages/Calendar';
+import Friends from '../pages/Friends';
+import NewPrepSessionForm from "../pages/NewPrepSessionForm";
+import LoginSignUpPage from "../pages/LoginSignUpPage";
 
 function App() {
 
   const [darkMode, setDarkMode] = useState(true)
   const [signedIn, setSignedIn] = useState(false)
+  const [user, setUser] = useState(null)
 
   function handleDarkModeToggle(){
     setDarkMode(!darkMode)
@@ -39,6 +41,11 @@ function App() {
         </Route>
         <Route path="/newprepsession">
           <NewPrepSessionForm/>
+        </Route>
+        <Route path="/login">
+          <LoginSignUpPage
+          onLogin={setUser}
+          />
         </Route>
       </Switch>
     </div>
