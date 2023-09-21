@@ -15,8 +15,8 @@ function SignUpForm({onLogin}) {
             },
             body: JSON.stringify({
             username,
+            email,
             password,
-            password_confirm: confirmPassword,
             }),
         }).then((r) => {
             if (r.ok) {

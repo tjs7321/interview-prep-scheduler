@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Route, Switch } from "react-router-dom";
 import Home from '../pages/Home';
 import NavBar from './NavBar';
@@ -11,11 +11,19 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(true)
   const [signedIn, setSignedIn] = useState(false)
-  const [userID, setUserID] = useState(null)
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    fetch("/check_session").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user));
+      }
+    });
+  }, []);
 
   function onLogin(user){
-    setUserID(user.id)
-    console.log(`user set to ${user.id}`)
+    setUser(user)
+    console.log(`user set to ${user.username}`)
   }
 
   function handleDarkModeToggle(){
@@ -36,7 +44,7 @@ function App() {
       />
       <Switch>
         <Route exact path="/">
-          <Home/>
+          <Home {...user}/>
         </Route>
         <Route path="/calendar">
           <Calendar/>
