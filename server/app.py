@@ -24,35 +24,24 @@ class Signup(Resource):
         request_json = request.get_json()
 
         username = request_json.get('username')
+        email = request_json.get('email')
         password = request_json.get('password')
 
         user = User(
             username=username,
-            image_url=image_url,
-            bio=bio
+            email=email,
         )
 
-        # the setter will encrypt this
         user.password_hash = password
 
-        print('first')
-
         try:
-
-            print('here!')
-
             db.session.add(user)
             db.session.commit()
-
             session['user_id'] = user.id
-
-            print(user.to_dict())
 
             return user.to_dict(), 201
 
-        except IntegrityError:
-
-            print('no, here!')
+        except ValueError:
             
             return {'error': '422 Unprocessable Entity'}, 422
 
@@ -74,7 +63,8 @@ class Login(Resource):
                 return user.to_dict(), 200
 
         return {'error': '401 Unauthorized'}, 401
-    
+
+api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 
 if __name__ == '__main__':

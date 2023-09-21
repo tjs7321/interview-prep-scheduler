@@ -27,6 +27,7 @@ function LoginForm({onLogin}) {
                 <form onSubmit={handleFormSubmit}>
                     <div>
                         <input
+                        required
                         type="text"
                         id="username"
                         placeholder="username"
@@ -36,6 +37,7 @@ function LoginForm({onLogin}) {
                     </div>
                     <div>
                         <input
+                        required
                         type="password"
                         id="password"
                         placeholder="password"
@@ -45,7 +47,7 @@ function LoginForm({onLogin}) {
                     </div>
                 <button
                 type="submit"
-                >Login</button>
+                >Submit</button>
                 </form>
             </div>
         </div>

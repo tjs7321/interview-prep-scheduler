@@ -11,7 +11,12 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(true)
   const [signedIn, setSignedIn] = useState(false)
-  const [user, setUser] = useState(null)
+  const [userID, setUserID] = useState(null)
+
+  function onLogin(user){
+    setUserID(user.id)
+    console.log(`user set to ${user.id}`)
+  }
 
   function handleDarkModeToggle(){
     setDarkMode(!darkMode)
@@ -44,7 +49,7 @@ function App() {
         </Route>
         <Route path="/login">
           <LoginSignUpPage
-          onLogin={setUser}
+          onLogin={onLogin}
           />
         </Route>
       </Switch>

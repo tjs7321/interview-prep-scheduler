@@ -16,15 +16,13 @@ function SignUpForm({onLogin}) {
             body: JSON.stringify({
             username,
             password,
-            password_confirmation: passwordConfirmation,
-            image_url: imageUrl,
-            bio,
+            password_confirm: confirmPassword,
             }),
         }).then((r) => {
             if (r.ok) {
             r.json().then((user) => onLogin(user))
             } else {
-            r.json().then((err) => setErrors(err.errors))
+            console.log('error')
             }
         });
         }
@@ -35,6 +33,7 @@ function SignUpForm({onLogin}) {
                 <form onSubmit={handleFormSubmit}>
                     <div>
                         <input
+                        required
                         type="text"
                         id="username"
                         placeholder="username"
@@ -44,6 +43,7 @@ function SignUpForm({onLogin}) {
                     </div>
                     <div>
                         <input
+                        required
                         type="text"
                         id="email"
                         placeholder="email"
@@ -53,6 +53,7 @@ function SignUpForm({onLogin}) {
                     </div>
                     <div>
                         <input
+                        required
                         type="password"
                         id="password"
                         placeholder="password"
@@ -62,7 +63,8 @@ function SignUpForm({onLogin}) {
                     </div>
                     <div>
                         <input
-                        type="confirmPassword"
+                        required
+                        type="password"
                         id="confirmPassword"
                         placeholder="confirm password"
                         value={confirmPassword}
@@ -71,7 +73,7 @@ function SignUpForm({onLogin}) {
                     </div>
                 <button
                 type="submit"
-                >Login</button>
+                >Submit</button>
                 </form>
             </div>
         </div>
