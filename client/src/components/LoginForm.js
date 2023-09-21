@@ -1,8 +1,11 @@
 import React, {useState} from "react";
+import { useHistory } from "react-router-dom";
 
 function LoginForm({onLogin}) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+
+    const history = useHistory()
 
     function handleFormSubmit(e) {
         e.preventDefault()
@@ -17,6 +20,7 @@ function LoginForm({onLogin}) {
                 r.json().then((user) => onLogin(user))
                 setUsername('')
                 setPassword('')
+                history.push('/')
             } else {
                 console.log('error')
             }

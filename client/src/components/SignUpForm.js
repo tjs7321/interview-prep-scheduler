@@ -1,10 +1,13 @@
 import React, {useState} from "react";
+import { useHistory } from "react-router-dom";
 
 function SignUpForm({onLogin}) {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+
+    const history = useHistory()
 
     function handleFormSubmit(e) {
         e.preventDefault()
@@ -25,6 +28,7 @@ function SignUpForm({onLogin}) {
                 setEmail('')
                 setPassword('')
                 setConfirmPassword('')
+                history.push('/')
             } else {
             console.log('error')
             }
