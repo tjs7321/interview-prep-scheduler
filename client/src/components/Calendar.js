@@ -1,4 +1,6 @@
 import React from "react";
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
 import { NavLink } from "react-router-dom";
 
 function Calendar() {
@@ -7,7 +9,11 @@ function Calendar() {
             <h1>Calendar Page</h1>
             <NavLink
             to="/newprepsession" exact
-            >Button</NavLink>
+            >Add New Event</NavLink>
+            <FullCalendar
+            plugins={[ dayGridPlugin ]}
+            initialView="dayGridMonth"
+            />
         </div>
     )
 }
