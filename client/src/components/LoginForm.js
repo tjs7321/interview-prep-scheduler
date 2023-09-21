@@ -15,6 +15,8 @@ function LoginForm({onLogin}) {
         }).then((r) => {
             if (r.ok) {
                 r.json().then((user) => onLogin(user))
+                setUsername('')
+                setPassword('')
             } else {
                 console.log('error')
             }

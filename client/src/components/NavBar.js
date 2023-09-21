@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { NavLink } from "react-router-dom";
 
-function NavBar({handleDarkModeToggle, darkMode, handleSignIn, signedIn}){
+function NavBar({handleDarkModeToggle, darkMode, id, handleLogout}){
 
     // const [activeItem, setActiveItem] = useState("")
 
@@ -9,6 +9,13 @@ function NavBar({handleDarkModeToggle, darkMode, handleSignIn, signedIn}){
     //     setActiveItem(e.name)
     //     console.log(activeItem)
     // }
+
+    function handleLogoutClick() {
+        fetch("/logout", { method: "DELETE" }).then((r) => {
+            if (r.ok) {
+                handleLogout();
+            }
+        })}
 
     return (
         <div class={darkMode? 'ui inverted large menu':'ui large menu'}>
@@ -41,15 +48,27 @@ function NavBar({handleDarkModeToggle, darkMode, handleSignIn, signedIn}){
                 >Friends</a>
             </NavLink>
             <div class="right menu">
-                <NavLink
-                to="/login" exact
-                >
-                    <a
-                    class={darkMode?"ui primary button":"ui inverted primary button"}
-                    onClick={handleSignIn}
-                    >{signedIn ? "Logout" : "Sign In"}
-                    </a>
-                </NavLink>
+                {id===undefined?(
+                    <NavLink
+                    to="/login" exact
+                    >
+                        <a
+                        class={darkMode?"ui primary button":"ui inverted primary button"}
+                        // onClick={handleSignIn}
+                        >Sign In
+                        </a>
+                    </NavLink>
+                ):(
+                    <NavLink
+                    to="/" exact
+                    >
+                        <a
+                        class={darkMode?"ui primary button":"ui inverted primary button"}
+                        onClick={handleLogoutClick}
+                        >Logout
+                        </a>
+                    </NavLink>
+                )}
                 <a
                 class={darkMode?"ui inverted secondary button":"ui secondary button"}
                 onClick={handleDarkModeToggle}>{darkMode?"Light":"Dark"}

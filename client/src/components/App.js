@@ -10,7 +10,6 @@ import LoginSignUpPage from "../pages/LoginSignUpPage";
 function App() {
 
   const [darkMode, setDarkMode] = useState(true)
-  const [signedIn, setSignedIn] = useState(false)
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -30,8 +29,8 @@ function App() {
     setDarkMode(!darkMode)
   }
 
-  function handleSignIn(){
-    setSignedIn(!signedIn)
+  function handleLogout(){
+    setUser(null)
   }
 
   return (
@@ -39,8 +38,8 @@ function App() {
       <NavBar
       handleDarkModeToggle={handleDarkModeToggle}
       darkMode={darkMode}
-      handleSignIn={handleSignIn}
-      signedIn={signedIn}
+      {...user}
+      handleLogout={handleLogout}
       />
       <Switch>
         <Route exact path="/">

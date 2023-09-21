@@ -20,7 +20,11 @@ function SignUpForm({onLogin}) {
             }),
         }).then((r) => {
             if (r.ok) {
-            r.json().then((user) => onLogin(user))
+                r.json().then((user) => onLogin(user))
+                setUsername('')
+                setEmail('')
+                setPassword('')
+                setConfirmPassword('')
             } else {
             console.log('error')
             }
