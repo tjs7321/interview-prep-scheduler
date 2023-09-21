@@ -4,13 +4,19 @@ import Home from './Home';
 import NavBar from './NavBar';
 import Calendar from './Calendar';
 import Friends from './Friends';
+import NewPrepSessionForm from "./NewPrepSessionForm";
 
 function App() {
 
   const [darkMode, setDarkMode] = useState(true)
+  const [signedIn, setSignedIn] = useState(false)
 
   function handleDarkModeToggle(){
     setDarkMode(!darkMode)
+  }
+
+  function handleSignIn(){
+    setSignedIn(!signedIn)
   }
 
   return (
@@ -18,6 +24,8 @@ function App() {
       <NavBar
       handleDarkModeToggle={handleDarkModeToggle}
       darkMode={darkMode}
+      handleSignIn={handleSignIn}
+      signedIn={signedIn}
       />
       <Switch>
         <Route exact path="/">
@@ -28,6 +36,9 @@ function App() {
         </Route>
         <Route path="/friends">
           <Friends/>
+        </Route>
+        <Route path="/newprepsession">
+          <NewPrepSessionForm/>
         </Route>
       </Switch>
     </div>
