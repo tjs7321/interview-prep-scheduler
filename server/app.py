@@ -64,9 +64,6 @@ class PrepSessions(Resource):
             )
 
 
-api.add_resource(PrepSessions, '/prep_sessions')
-
-
 class Signup(Resource):
     
     def post(self):
@@ -129,11 +126,18 @@ class CheckSession(Resource):
             user = User.query.filter(User.id == session['user_id']).first()
             return user.to_dict(), 200
         return {'error': '401 Unauthorized'}, 401
+    
+class PrepSessionUsers(Resource):
+
+    def get(self):
+        prep_session_users = [p.to_dict() for p in PrepSessionUser.query.all()]
+        return prep_session_users, 200
 
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
+api.add_resource(PrepSessions, '/prep_sessions', endpoint='prep_sessions')
 
 
 if __name__ == '__main__':
