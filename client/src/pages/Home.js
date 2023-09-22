@@ -20,7 +20,7 @@ function Home({username}) {
             </div>
             <div>
                 <h2>Upcoming Events</h2>
-                <div>
+                <div class="ui grid">
                     {prepSessions.map((session) =>
                     <PrepSessionsTile
                     {...session}

@@ -170,6 +170,15 @@ class PrepSessionsHomeScreen(Resource):
             return limited_prep_sessions, 200
         else:
             return {'message': 'Must be logged in'}, 401
+        
+class FollowersList(Resource):
+    
+    def get(self):
+        if session.get('user_id'):
+            user = User.query.filter(User.id == session['user_id']).first()
+            return [follower.to_dict() for follower in user.followers], 200
+        return {'error': '401 Unauthorized'}, 401
+
 
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Signup, '/signup', endpoint='signup')
@@ -178,6 +187,7 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(PrepSessions, '/prep_sessions', endpoint='prep_sessions')
 api.add_resource(PrepSessionByID,'/prep_sessions/<int:id>')
 api.add_resource(PrepSessionsHomeScreen, '/prep_sessions_home_screen', endpoint='prep_sessions_home_screen')
+api.add_resource(FollowersList, '/followers_list', endpoint='followers_list')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

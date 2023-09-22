@@ -29,6 +29,9 @@ with app.app_context():
 
     user2 = User(username='teddysmith', email='tjs7321@gmail.com')
     user2.password_hash = '1234'
+    
+    user1.following.append(user2)
+    user2.following.append(user1)
 
     db.session.add(user1)
     db.session.add(user2)
@@ -48,6 +51,10 @@ with app.app_context():
         user.password_hash = user.username + 'password'
 
         users.append(user)
+    
+    for user in users:
+        for i in range(30):
+            user.followers.append(users[i])
 
     db.session.add_all(users)
 
