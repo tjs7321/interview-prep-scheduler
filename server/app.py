@@ -208,6 +208,29 @@ class FollowersList(Resource):
                 401
             )
     
+    def delete(self):
+        if session.get('user_id'):
+            user = User.query.filter(
+                User.id == session['user_id']).first()
+            data = request.get_json()
+            try:
+                id=data['id']
+                pot_remove = User.query.filter_by(id=id).first()
+                user.followers.remove(pot_remove)
+                db.session.commit()
+                
+                return make_response(
+                    pot_remove.to_dict(),
+                    201
+                    )
+            except ValueError as e:
+                return {'error':str(e)}, 422
+        else:
+            return make_response(
+                {'message': 'Must be logged in'},
+                401
+            )
+    
 class Users(Resource):
     def get(self):
         if (user_id := session.get('user_id')):

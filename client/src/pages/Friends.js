@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import FriendCard from "../components/FriendCard";
+import UserCard from "../components/UserCard";
 import FriendsSearchBar from "../components/FriendsSearchBar";
 
 function Friends() {
@@ -34,11 +35,19 @@ function Friends() {
         console.log(e.target.value)
     }
 
-    function handleAddFriend(){
-        console.log('Friend Added')
+    function handleAddFriend(new_user){
+        setAllUsers(allUsers.filter(user => user.id !== new_user.id))
+        console.log(new_user)
+        setAllFriends([...allFriends, new_user])
     }
 
-    let filteredUsers = allUsers
+    function handleRemoveFriend(new_friend){
+        setAllFriends(allFriends.filter(friend => friend.id !== new_friend.id))
+        console.log(new_friend)
+        setAllUsers([...allUsers, new_friend])
+    }
+
+    let filteredUsers = []
     if (search !== ''){filteredUsers =
     allUsers.filter((user) => 
     user.username.toLowerCase().includes(search.toLowerCase()))}
@@ -73,6 +82,8 @@ function Friends() {
                 <div class="ui grid">
                     {filteredFriends.map((friend) =>
                     <FriendCard
+                    handleRemoveFriend={handleRemoveFriend}
+                    friend={friend}
                     {...friend}
                     key={friend.id}
                     />)}
@@ -85,7 +96,8 @@ function Friends() {
                 />
                 <div class="ui grid">
                     {usersWithoutFriends.map((user) =>
-                    <FriendCard
+                    <UserCard
+                    user={user}
                     handleAddFriend={handleAddFriend}
                     {...user}
                     key={user.id}
