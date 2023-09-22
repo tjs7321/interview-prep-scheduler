@@ -22,7 +22,8 @@ function Home({username}) {
             <div>
                 <h2 class="ui center aligned icon header"
                 >Upcoming Events</h2>
-                <div class="ui grid">
+                <div class="ui grid"
+                >
                     {prepSessions.map((session) =>
                     <PrepSessionsTile
                     {...session}
