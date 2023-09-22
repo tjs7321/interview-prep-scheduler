@@ -142,12 +142,13 @@ class PrepSessionsHomeScreen(Resource):
     def get(self):
         if (user_id := session.get('user_id')):
             user = User.find_by_id(user_id)
-            prep_sessions = []
-            for prep_session in user.prep_sessions:
-                if len(prep_sessions) < 10:
-                    prep_sessions.append(prep_session.to_dict())
-            print(prep_sessions)
-            return prep_sessions, 200
+            user_prep_sessions = [prep_session.to_dict() for prep_session in user.prep_sessions]
+            sorted_prep_sessions = sorted(user_prep_sessions, key=lambda x: x['start'])
+            limited_prep_sessions = []
+            for prep_session in sorted_prep_sessions:
+                if len(limited_prep_sessions) < 10:
+                    limited_prep_sessions.append(prep_session)
+            return limited_prep_sessions, 200
         else:
             return {'message': 'Must be logged in'}, 401
 
