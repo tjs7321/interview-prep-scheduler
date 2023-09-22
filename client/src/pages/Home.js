@@ -6,7 +6,7 @@ function Home({username}) {
     const [prepSessions, setPrepSessions] = useState([])
 
     useEffect(() => {
-        fetch('/prep_sessions').then((r) => {
+        fetch('/prep_sessions_home_screen').then((r) => {
             if (r.ok) {
             r.json().then((session) => setPrepSessions(session));
             }

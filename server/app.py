@@ -138,11 +138,18 @@ class CheckSession(Resource):
             return user.to_dict(), 200
         return {'error': '401 Unauthorized'}, 401
     
-class PrepSessionUsers(Resource):
-
+class PrepSessionsHomeScreen(Resource):
     def get(self):
-        prep_session_users = [p.to_dict() for p in PrepSessionUser.query.all()]
-        return prep_session_users, 200
+        if (user_id := session.get('user_id')):
+            user = User.find_by_id(user_id)
+            prep_sessions = []
+            for prep_session in user.prep_sessions:
+                if len(prep_sessions) < 10:
+                    prep_sessions.append(prep_session.to_dict())
+            print(prep_sessions)
+            return prep_sessions, 200
+        else:
+            return {'message': 'Must be logged in'}, 401
 
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Signup, '/signup', endpoint='signup')
@@ -150,6 +157,7 @@ api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(PrepSessions, '/prep_sessions', endpoint='prep_sessions')
 api.add_resource(PrepSessionByID,'/prep_sessions/<int:id>')
+api.add_resource(PrepSessionsHomeScreen, '/prep_sessions_home_screen', endpoint='prep_sessions_home_screen')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
