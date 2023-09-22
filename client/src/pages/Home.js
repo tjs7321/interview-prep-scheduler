@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PrepSessionsTile from "../components/PrepSessionsTile";
 
-function Home({username, darkMode}) {
+function Home({username, darkMode, user}) {
 
     const [prepSessions, setPrepSessions] = useState([])
 
@@ -22,14 +22,15 @@ function Home({username, darkMode}) {
             <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
                 <h2 class="ui center aligned icon header"
                 >Upcoming Events</h2>
-                <div class="ui padded three column grid"
+                {user!==null? <div class="ui padded three column grid"
                 >
                     {prepSessions.map((session) =>
                     <PrepSessionsTile
                     {...session}
                     key={session.id}
                     />)}
-                </div>
+                </div>: 
+                <div></div>}
             </div>
         </div>
     )

@@ -47,6 +47,7 @@ function App() {
       <Switch>
         <Route exact path="/">
           <Home
+          user={user}
           darkMode={darkMode}
           {...user}/>
         </Route>
