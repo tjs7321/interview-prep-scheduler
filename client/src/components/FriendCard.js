@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-function FriendCard({id, username, email}) {
+function FriendCard({id, username, email, handleAddFriend}) {
 
     function handleFollowClick(){
         const body = JSON.stringify({
@@ -12,7 +12,9 @@ function FriendCard({id, username, email}) {
             body: body
         }).then((r)=>{
             if (r.ok) {
-                console.log('following')
+                r.json()
+                .then(console.log(r))
+                handleAddFriend()
             } else {
                 console.log('nop')
             }

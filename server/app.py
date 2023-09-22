@@ -196,7 +196,10 @@ class FollowersList(Resource):
                 user.followers.append(pot_follow)
                 db.session.commit()
                 
-                return {}, 201
+                return make_response(
+                    pot_follow.to_dict(),
+                    201
+                    )
             except ValueError as e:
                 return {'error':str(e)}, 422
         else:
