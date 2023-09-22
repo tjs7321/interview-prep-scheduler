@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
 
-function SignUpForm({onLogin}) {
+function SignUpForm({onLogin, darkMode}) {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -36,10 +36,10 @@ function SignUpForm({onLogin}) {
         }
     
     return (
-        <div>
+        <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
             <div>
                 <form onSubmit={handleFormSubmit}>
-                    <div>
+                    <div class={darkMode?"ui inverted input":"ui input"}>
                         <input
                         required
                         type="text"
@@ -49,7 +49,8 @@ function SignUpForm({onLogin}) {
                         onChange={(e) => setUsername(e.target.value)}
                         />
                     </div>
-                    <div>
+                    <div class="ui inverted divider"></div>
+                    <div class={darkMode?"ui inverted input":"ui input"}>
                         <input
                         required
                         type="text"
@@ -59,7 +60,8 @@ function SignUpForm({onLogin}) {
                         onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <div>
+                    <div class="ui inverted divider"></div>
+                    <div class={darkMode?"ui inverted input":"ui input"}>
                         <input
                         required
                         type="password"
@@ -69,7 +71,8 @@ function SignUpForm({onLogin}) {
                         onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <div>
+                    <div class="ui inverted divider"></div>
+                    <div class={darkMode?"ui inverted input":"ui input"}>
                         <input
                         required
                         type="password"
@@ -79,7 +82,9 @@ function SignUpForm({onLogin}) {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </div>
+                    <div class="ui inverted divider"></div>
                 <button
+                class={darkMode?"ui primary button":"ui inverted primary button"}
                 type="submit"
                 >Submit</button>
                 </form>

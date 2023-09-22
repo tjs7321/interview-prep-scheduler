@@ -68,6 +68,7 @@ function App() {
         </Route>
         <Route path="/login">
           <LoginSignUpPage
+          darkMode={darkMode}
           onLogin={onLogin}
           />
         </Route>

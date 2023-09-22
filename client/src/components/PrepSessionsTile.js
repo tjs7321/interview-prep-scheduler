@@ -13,12 +13,16 @@ function PrepSessionsTile({id, title, start}) {
     }
 
     return(
-        <div class="four wide column"
-        >
-            <NavLink
-            to={`/sessions/${id}`}
-            >{title}</NavLink>
-            <p>{formatDate(start)}</p>
+        <div class="column">
+            <div class="ui raised card">
+                <div class="content">
+                    <NavLink
+                    class="center aligned header"
+                    to={`/sessions/${id}`}
+                    >{title}</NavLink>
+                    <p class="center aligned description">{formatDate(start)}</p>
+                </div>
+            </div>
         </div>
         
     )
