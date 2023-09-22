@@ -1,9 +1,9 @@
 import React from "react";
 
-function FriendsSearchBar({handleSearchChange, searchValue}) {
+function FriendsSearchBar({handleSearchChange, searchValue, darkMode}) {
     return (
     <div>
-        <div className="ui large fluid icon input">
+        <div className={darkMode?"ui large fluid icon input":"ui large fluid icon input"}>
             <input
                 onChange={(e) => handleSearchChange(e)}
                 type="text"

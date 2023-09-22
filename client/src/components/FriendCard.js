@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-function FriendCard({id, username, email, handleRemoveFriend, friend}) {
+function FriendCard({id, username, email, handleRemoveFriend, friend, darkMode}) {
 
     function handleRemoveClick(){
         const body = JSON.stringify({
@@ -22,13 +22,17 @@ function FriendCard({id, username, email, handleRemoveFriend, friend}) {
     }
 
     return(
-        <div class="four wide column">
-            <p>{username}</p>
-            <p>{email}</p>
-            <button
-            class="ui button"
-            onClick={handleRemoveClick}
-            >Unfollow</button>
+        <div class="column">
+            <div class="ui raised card">
+                <div class="content">
+                    <div class="center aligned header">{username}</div>
+                    <div class="center aligned description">{email}</div>
+                </div>
+                <div
+                class="ui bottom attached button"
+                onClick={handleRemoveClick}
+                >Unfollow</div>
+            </div>
         </div>
     )
 }

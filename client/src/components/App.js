@@ -46,18 +46,25 @@ function App() {
       />
       <Switch>
         <Route exact path="/">
-          <Home {...user}/>
+          <Home
+          darkMode={darkMode}
+          {...user}/>
         </Route>
         <Route path="/calendar">
           <Calendar
+          darkMode={darkMode}
             user={user}
           />
         </Route>
         <Route path="/friends">
-          <Friends/>
+          <Friends
+          darkMode={darkMode}
+          />
         </Route>
         <Route path="/newprepsession">
-          <NewPrepSessionForm/>
+          <NewPrepSessionForm
+          darkMode={darkMode}
+          />
         </Route>
         <Route path="/login">
           <LoginSignUpPage
@@ -65,7 +72,9 @@ function App() {
           />
         </Route>
         <Route path='/sessions/:id'>
-          <SessionDetailPage/>
+          <SessionDetailPage
+          darkMode={darkMode}
+          />
         </Route>
       </Switch>
     </div>
