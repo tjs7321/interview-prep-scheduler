@@ -16,10 +16,12 @@ function Home({username}) {
     return (
         <div>
             <div>
-                <h1>{username ? `Welcome, ${username}!` : 'Please sign in to access all features'}</h1>
+                <h1 class="ui center aligned icon header"
+                >{username ? `Welcome, ${username}!` : 'Please sign in to access all features'}</h1>
             </div>
             <div>
-                <h2>Upcoming Events</h2>
+                <h2 class="ui center aligned icon header"
+                >Upcoming Events</h2>
                 <div class="ui grid">
                     {prepSessions.map((session) =>
                     <PrepSessionsTile

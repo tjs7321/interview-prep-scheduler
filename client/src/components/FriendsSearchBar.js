@@ -1,6 +1,6 @@
 import React from "react";
 
-function FriendsSearchBar({handleSearchChange, searchValue, handleSortChange}) {
+function FriendsSearchBar({handleSearchChange, searchValue}) {
     return (
     <div>
         <div className="ui large fluid icon input">

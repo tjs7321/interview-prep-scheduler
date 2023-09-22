@@ -178,6 +178,22 @@ class FollowersList(Resource):
             user = User.query.filter(User.id == session['user_id']).first()
             return [follower.to_dict() for follower in user.followers], 200
         return {'error': '401 Unauthorized'}, 401
+    
+class Users(Resource):
+    def get(self):
+        if (user_id := session.get('user_id')):
+            user = User.find_by_id(user_id)
+            response = [user.to_dict() 
+                        for user in User.query.all()]
+            return make_response(
+                response, 
+                200
+            )
+        else:
+            return make_response(
+                {'message': 'Must be logged in'},
+                401
+            )
 
 
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
@@ -188,6 +204,7 @@ api.add_resource(PrepSessions, '/prep_sessions', endpoint='prep_sessions')
 api.add_resource(PrepSessionByID,'/prep_sessions/<int:id>')
 api.add_resource(PrepSessionsHomeScreen, '/prep_sessions_home_screen', endpoint='prep_sessions_home_screen')
 api.add_resource(FollowersList, '/followers_list', endpoint='followers_list')
+api.add_resource(Users, '/users', endpoint='users')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

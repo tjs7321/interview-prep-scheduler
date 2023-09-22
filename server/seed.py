@@ -24,14 +24,12 @@ with app.app_context():
     users = []
     usernames = []
 
-    user1= User(username='johncarges',email='johncarges@gmail.com')
+    user1= User(username='John Carges',email='johncarges@gmail.com')
     user1.password_hash = 'asdfg'
 
-    user2 = User(username='teddysmith', email='tjs7321@gmail.com')
+    user2 = User(username='Teddy Smith', email='tjs7321@gmail.com')
     user2.password_hash = '1234'
-    
-    user1.following.append(user2)
-    user2.following.append(user1)
+
 
     db.session.add(user1)
     db.session.add(user2)
@@ -52,9 +50,10 @@ with app.app_context():
 
         users.append(user)
     
-    for user in users:
-        for i in range(30):
-            user.followers.append(users[i])
+    # for user in users:
+    #     for i in range(30):
+    #         if user != users[i]:
+    #             user.followers.append(users[i])
 
     db.session.add_all(users)
 

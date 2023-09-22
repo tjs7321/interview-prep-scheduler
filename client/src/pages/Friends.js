@@ -4,34 +4,45 @@ import FriendsSearchBar from "../components/FriendsSearchBar";
 
 function Friends() {
 
-    const [friends, setFriends] = useState([])
+    const [allUsers, setAllUsers] = useState([])
+    const [allFriends, setAllFriends] = useState([])
     const [search, setSearch] = useState("")
 
     useEffect(() => {
-        fetch('/followers_list').then((r) => {
+        fetch('/users').then((r) => {
             if (r.ok) {
-            r.json().then((user) => setFriends(user));
+            r.json().then((user) => setAllUsers(user));
             }
         });
         }, []);
 
+    useEffect(() => {
+        fetch('/followers_list').then((r) => {
+            if (r.ok) {
+            r.json().then((user) => setAllFriends(user));
+            }
+        });
+        }, []);
+    
+    console.log(allFriends)
+
     function handleSearchChange(e){
         setSearch(e.target.value)
-        console.log(search)
     }
 
-    let filteredFriends = friends
-    if (search !== ''){filteredFriends =
-    friends.filter((friend) => friend.username.toLowerCase().includes(search.toLowerCase()))}
+    let filteredUsers = allUsers
+    if (search !== ''){filteredUsers =
+    allUsers.filter((user) => 
+    user.username.toLowerCase().includes(search.toLowerCase()))}
 
     return(
         <div>
-            <h1>Friends Page</h1>
+            <h1 class="ui center aligned icon header">Follow Page</h1>
             <FriendsSearchBar
             handleSearchChange={handleSearchChange}
             />
             <div class="ui grid">
-                {filteredFriends.map((friend) =>
+                {filteredUsers.map((friend) =>
                 <FriendCard
                 {...friend}
                 key={friend.id}
