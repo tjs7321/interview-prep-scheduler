@@ -4,6 +4,13 @@ from sqlalchemy.orm import validates
 
 from config import db
 
+follow = db.Table(
+    'follow',
+    db.Column('following_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('follower_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('created_at', db.DateTime, server_default=db.func.now()),
+    db.Column('updated_at', db.DateTime, onupdate=db.func.now())
+)
 
 
 class User(db.Model):
@@ -20,13 +27,16 @@ class User(db.Model):
     prep_session_users = db.relationship('PrepSessionUser', backref='user', cascade='all, delete-orphan')
     prep_sessions = association_proxy('prep_session_users','prep_session')
 
-    ##  Users that THIS user has followed
-    # followings = db.relationship('Follow', backref='following_user', cascade='all, delete-orphan')
-    # followed_users = association_proxy('followings','followed_user')
-
-    ##  Users that follow THIS user
-    # follows = db.relationship('Follow',backref='followed_user', cascade='all, delete-orphan')
-    # following_users = association_proxy('follows', 'following_user')
+    
+    followers = db.relationship('User', 
+                                secondary = follow, 
+                                primaryjoin = (follow.c.following_id == id),
+                                secondaryjoin = (follow.c.follower_id == id),
+                                backref = 'following'
+                                )
+    
+    def __repr__(self):
+        return f'<User {self.username}>'
 
     @classmethod
     def find_by_id(cls,id):
@@ -50,29 +60,12 @@ class User(db.Model):
         
     @validates('email')
     def validate_email(self,key,email):
-        if User.query.filter_by(email=email):
+        if User.query.filter_by(email=email).first():
             raise ValueError("A user with this email address already exists")
         else:
             return email
             ##  Any other validations? I think email regex validation is unnecessary/doesn't prevent typos    
     
-
-class Follow(db.Model):
-    __tablename__ = 'follows'
-
-    id = db.Column(db.Integer, primary_key=True)
-    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user_followed_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    created_at = db.Column(db.DateTime, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
-
-    @validates('follower_id', 'user_followed_id')
-    def validate_follower(self,key,user_id):
-        if User.find_by_id(user_id):
-            return user_id
-        else:
-            raise ValueError("Not a valid user")
         
 
 class PrepSession(db.Model):
@@ -81,8 +74,8 @@ class PrepSession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
     description = db.Column(db.String)
-    all_day = db.Column(db.Boolean)
-    time = db.Column(db.DateTime)
+    start_time = db.Column(db.DateTime)
+    end_time = db.Column(db.DateTime)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -93,6 +86,8 @@ class PrepSession(db.Model):
     @classmethod
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id)
+
+    ##  Add validator for end-time > start-time
 
 
 class PrepSessionUser(db.Model):
