@@ -1,29 +1,57 @@
 import React, {useState} from "react";
 import { NavLink } from "react-router-dom";
 
-function NavBar({handleDarkModeToggle, darkMode}){
+function NavBar({handleDarkModeToggle, darkMode, handleSignIn, signedIn}){
+
+    // const [activeItem, setActiveItem] = useState("")
+
+    // function handleNavBarClick(e){
+    //     setActiveItem(e.name)
+    //     console.log(activeItem)
+    // }
 
     return (
-        <nav>
+        <div class={darkMode? 'ui inverted large menu':'ui large menu'}>
             <NavLink
             to="/" exact
             >
-            Home
+                <a
+                class="item"
+                // name='home'
+                // active={activeItem === 'home'}
+                // onClick={handleNavBarClick}
+                >Home</a>
             </NavLink>
             <NavLink
             to="/calendar" exact
             >
-            Calendar
+                <a class="item"
+                // name='calendar'
+                // active={activeItem === 'calendar'}
+                // onClick={handleNavBarClick}
+                >Calendar</a>
             </NavLink>
             <NavLink
             to="/friends" exact
             >
-            Friends
+                <a class="item"
+                // name='friends'
+                // active={activeItem === 'friends'}
+                // onClick={handleNavBarClick}
+                >Friends</a>
             </NavLink>
-            <button
-            onClick={handleDarkModeToggle}>{darkMode?"Dark":"Light"}
-            </button>
-        </nav>
+            <div class="right menu">
+                <a
+                class={darkMode?"ui primary button":"ui inverted primary button"}
+                onClick={handleSignIn}
+                >{signedIn ? "Logout" : "Sign In"}
+                </a>
+                <a
+                class={darkMode?"ui inverted secondary button":"ui secondary button"}
+                onClick={handleDarkModeToggle}>{darkMode?"Light":"Dark"}
+                </a>
+            </div>
+        </div>
         )
 }
 
