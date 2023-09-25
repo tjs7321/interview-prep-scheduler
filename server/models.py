@@ -17,6 +17,17 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
+    prep_session_users = db.relationship('PrepSessionUser', backref='user', cascade='all, delete-orphan')
+    prep_sessions = association_proxy('prep_session_users','prep_session')
+
+    ##  Users that THIS user has followed
+    # followings = db.relationship('Follow', backref='following_user', cascade='all, delete-orphan')
+    # followed_users = association_proxy('followings','followed_user')
+
+    ##  Users that follow THIS user
+    # follows = db.relationship('Follow',backref='followed_user', cascade='all, delete-orphan')
+    # following_users = association_proxy('follows', 'following_user')
+
     @classmethod
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id)
@@ -50,8 +61,8 @@ class Follow(db.Model):
     __tablename__ = 'follows'
 
     id = db.Column(db.Integer, primary_key=True)
-    follower_id = db.Column(db.Integer)
-    user_followed_id = db.Column(db.Integer)
+    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_followed_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -64,8 +75,8 @@ class Follow(db.Model):
             raise ValueError("Not a valid user")
         
 
-class Session(db.model):
-    __tablename__ = 'sessions'
+class PrepSession(db.Model):
+    __tablename__ = 'prep_sessions'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -76,17 +87,20 @@ class Session(db.model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
+    prep_session_users = db.relationship('PrepSessionUser', backref='prep_session', cascade='all, delete-orphan')
+    users = association_proxy('prep_session_users', 'user')
+
     @classmethod
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id)
 
 
-class SessionUser(db.Model):
-    __tablename__='session_users'
+class PrepSessionUser(db.Model):
+    __tablename__='prep_session_users'
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    session_id = db.Column(db.Integer, db.ForeignKey('sessions.id'))
+    session_id = db.Column(db.Integer, db.ForeignKey('prep_sessions.id'))
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -100,9 +114,9 @@ class SessionUser(db.Model):
             raise ValueError("Not a valid user")
         
     @validates('session_id')
-    def validate_follower(self,key,session_id):
-        if Session.find_by_id(session_id):
-            return session_id
+    def validate_follower(self,key,prep_session_id):
+        if PrepSession.find_by_id(prep_session_id):
+            return prep_session_id
         else:
             raise ValueError("Not a valid session")
         
