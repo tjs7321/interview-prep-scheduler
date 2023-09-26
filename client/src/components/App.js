@@ -9,7 +9,8 @@ import NewPrepSessionForm from "./NewPrepSessionForm";
 function App() {
 
   const [darkMode, setDarkMode] = useState(true)
-  const [signedIn, setSignedIn] = useState(false)
+  const [signedIn, setSignedIn] = useState(false) 
+  const [user, setUser] = useState(null)
 
   function handleDarkModeToggle(){
     setDarkMode(!darkMode)
@@ -32,7 +33,9 @@ function App() {
           <Home/>
         </Route>
         <Route path="/calendar">
-          <Calendar/>
+          <Calendar
+            user={user}
+          />
         </Route>
         <Route path="/friends">
           <Friends/>

@@ -1,41 +1,91 @@
 import React, {useState} from "react";
+import { useHistory } from "react-router-dom";
+import Datetime from 'react-datetime';
+import "react-datetime/css/react-datetime.css";
 
 function NewPrepSessionForm() {
     const prepSessionFormEmpty = {
         title: "",
         description: "",
-        effect: "",
-        endTime: ""}
+        startTime: null,
+        endTime: null}
     const [newPrepSession, setNewPrepSession] = useState(prepSessionFormEmpty)
-    
-    function handleFormSubmit(e){
-        e.preventDefault()
-        // takes you back to calendar page?
-        setNewPrepSession(prepSessionFormEmpty)
-    }
-    
-    function handleTitleEdit(e){
-        let {name, value} = e.target
-        setNewPrepSession(newPrepSession =>
-            ({...newPrepSession, title: {...newPrepSession.title, [name]:value}}))
-    }
-    function handleDescriptionEdit(e){
-        let {name, value} = e.target
-        setNewPrepSession(newPrepSession =>
-            ({...newPrepSession, description: {...newPrepSession.description, [name]:value}}))
-    }
-    function handleStartTimeEdit(e){
-        let {name, value} = e.target
-        setNewPrepSession(newPrepSession =>
-            ({...newPrepSession, startTime: {...newPrepSession.startTime, [name]:value}}))
-    }
-    function handleEndTimeEdit(e){
-        let {name, value} = e.target
-        setNewPrepSession(newPrepSession =>
-            ({...newPrepSession, endTime: {...newPrepSession.endTime, [name]:value}}))
+    const [outcome, setOutcome] = useState('')
+    const history = useHistory()
+
+    const timeConstraints = {
+        minutes: {
+            step: 15
+        }
     }
 
+    function handleAddPrepSession(newSession) {
+        const body = JSON.stringify({
+            title: newSession.title,
+            description: newSession.description,
+            startTime: newSession.startTime.format(),
+            endTime: newSession.endTime.format()
+        })
+        // console.log(`body: ${body}`)
+        fetch('/prep_sessions', {
+            method: 'POST',
+            headers: {"content-type": "application/json", "accepts":"application/json"},
+            body: body
+        }).then((r)=>{
+            if (r.ok) {
+                setOutcome('success')
+            } else {
+                console.log(r)
+                setOutcome(r.json()['message'])
+            }
+        })
+    }
+
+    function handleFormSubmit(e){
+        e.preventDefault()
+        console.log(JSON.stringify(newPrepSession))
+        handleAddPrepSession(newPrepSession)
+        console.log(`outcome: ${outcome}`)
+        if (outcome === 'success') {
+            history.push('/calendar')} // takes you back to calendar page?
+        else {
+            history.push('/calendar')
+        }
+        
+            // setNewPrepSession(prepSessionFormEmpty)
+    }
     
+    function handleTextChange(event) {
+        
+        setNewPrepSession({
+          ...newPrepSession,
+          [event.target.name]: event.target.value
+        })
+      }
+    
+    function handleStartChange(event) {
+        try {
+            setNewPrepSession({
+                ...newPrepSession,
+                startTime: event
+              })
+              console.log(`Change to string: ${newPrepSession.startTime.toString()}`)
+        } catch {
+        }
+    }
+
+    function handleEndChange(event) {
+        try {
+            setNewPrepSession({
+                ...newPrepSession,
+                endTime: event
+              })
+              console.log(`Change to string: ${newPrepSession.endTime.toString()}`)
+        } catch {
+        }
+    }
+
+
     return (
         <div>
             <h2>New Prep Session Form</h2>
@@ -48,7 +98,7 @@ function NewPrepSessionForm() {
                         type="text"
                         placeholder="Title"
                         name="title"
-                        onChange={handleTitleEdit}
+                        onChange={handleTextChange}
                         value={newPrepSession.title}/>
                     </div>
                     <div>
@@ -56,31 +106,29 @@ function NewPrepSessionForm() {
                         style={{margin:"3px"}}
                         required
                         type="text"
-                        placeholder="description"
+                        placeholder="Description"
                         name="description"
-                        onChange={handleDescriptionEdit}
+                        onChange={handleTextChange}
                         value={newPrepSession.description}/>
                     </div>
+                    
                     <div>
-                        <input
-                        style={{margin:"3px"}}
-                        required
-                        type="text"
-                        placeholder="Start Time"
-                        name="startTime"
-                        onChange={handleStartTimeEdit}
-                        value={newPrepSession.startTime}/>
+                        <Datetime 
+                            onChange={handleStartChange}
+                            value={newPrepSession.startTime}
+                            timeConstraints={timeConstraints}
+                            inputProps={{placeholder:"Start Time"}}
+                        />
                     </div>
                     <div>
-                        <input
-                        style={{margin:"3px"}}
-                        required
-                        type="text"
-                        placeholder="End Time"
-                        name="endTime"
-                        onChange={handleEndTimeEdit}
-                        value={newPrepSession.endTime}/>
+                        <Datetime 
+                            onChange={handleEndChange}
+                            value={newPrepSession.endTime}
+                            timeConstraints={timeConstraints}
+                            inputProps={{placeholder:"End Time"}}
+                        />
                     </div>
+                    
                 <button
                 type="submit"
                 >Submit</button>

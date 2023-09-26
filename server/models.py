@@ -40,7 +40,7 @@ class User(db.Model):
 
     @classmethod
     def find_by_id(cls,id):
-        return cls.query.filter_by(id=id)
+        return cls.query.filter_by(id=id).first()
 
     def to_dict(self):
         return {
@@ -66,8 +66,6 @@ class User(db.Model):
             return email
             ##  Any other validations? I think email regex validation is unnecessary/doesn't prevent typos    
     
-        
-
 class PrepSession(db.Model):
     __tablename__ = 'prep_sessions'
 
@@ -87,8 +85,18 @@ class PrepSession(db.Model):
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id)
 
+    def __repr__(self):
+        return f'< Session {self.title} from {self.start_time} to {self.end_time} >'
     ##  Add validator for end-time > start-time
 
+    def to_dict(self):
+        return {
+            'id':self.id,
+            'title':self.title,
+            # 'description':self.description,
+            'start':self.start_time.isoformat(),
+            'end':self.end_time.isoformat()
+        }
 
 class PrepSessionUser(db.Model):
     __tablename__='prep_session_users'
