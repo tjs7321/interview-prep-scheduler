@@ -1,16 +1,32 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Route, Switch } from "react-router-dom";
-import Home from './Home';
+import Home from '../pages/Home';
 import NavBar from './NavBar';
-import Calendar from './Calendar';
-import Friends from './Friends';
-import NewPrepSessionForm from "./NewPrepSessionForm";
+import Calendar from '../pages/Calendar';
+import Friends from '../pages/Friends';
+import NewPrepSessionForm from "../pages/NewPrepSessionForm";
+import LoginSignUpPage from "../pages/LoginSignUpPage";
 
 function App() {
 
   const [darkMode, setDarkMode] = useState(true)
-  const [signedIn, setSignedIn] = useState(false) 
+
+  const [signedIn, setSignedIn] = useState(false)
   const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    fetch("/check_session").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user));
+      }
+    });
+  }, []);
+
+  function onLogin(user){
+    setUser(user)
+    console.log(`user set to ${user.username}`)
+  }
+
 
   function handleDarkModeToggle(){
     setDarkMode(!darkMode)
@@ -30,7 +46,7 @@ function App() {
       />
       <Switch>
         <Route exact path="/">
-          <Home/>
+          <Home {...user}/>
         </Route>
         <Route path="/calendar">
           <Calendar
@@ -42,6 +58,11 @@ function App() {
         </Route>
         <Route path="/newprepsession">
           <NewPrepSessionForm/>
+        </Route>
+        <Route path="/login">
+          <LoginSignUpPage
+          onLogin={onLogin}
+          />
         </Route>
       </Switch>
     </div>
