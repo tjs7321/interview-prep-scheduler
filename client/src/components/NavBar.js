@@ -41,11 +41,15 @@ function NavBar({handleDarkModeToggle, darkMode, handleSignIn, signedIn}){
                 >Friends</a>
             </NavLink>
             <div class="right menu">
-                <a
-                class={darkMode?"ui primary button":"ui inverted primary button"}
-                onClick={handleSignIn}
-                >{signedIn ? "Logout" : "Sign In"}
-                </a>
+                <NavLink
+                to="/login" exact
+                >
+                    <a
+                    class={darkMode?"ui primary button":"ui inverted primary button"}
+                    onClick={handleSignIn}
+                    >{signedIn ? "Logout" : "Sign In"}
+                    </a>
+                </NavLink>
                 <a
                 class={darkMode?"ui inverted secondary button":"ui secondary button"}
                 onClick={handleDarkModeToggle}>{darkMode?"Light":"Dark"}
