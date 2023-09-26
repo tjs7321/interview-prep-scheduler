@@ -5,7 +5,8 @@ from random import randint, choice as rc
 from faker import Faker
 
 from app import app
-from models import db, User, PrepSession, PrepSessionUser
+from models import db, PrepSession, User, PrepSessionUser
+
 fake = Faker()
 
 with app.app_context():
@@ -15,6 +16,7 @@ with app.app_context():
     User.query.delete()
     PrepSessionUser.query.delete()
 
+    fake = Faker()
 
     print("Creating users...")
 
@@ -62,4 +64,3 @@ with app.app_context():
     
     db.session.commit()
     print("Complete.")
-
