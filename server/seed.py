@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from random import randint, choice as rc
-
+from datetime import datetime, timedelta
 from faker import Faker
 
 from app import app
@@ -24,10 +24,19 @@ with app.app_context():
     users = []
     usernames = []
 
+    user1= User(username='johncarges',email='johncarges@gmail.com')
+    user1.password_hash = 'asdfg'
+
+    user2 = User(username='teddysmith', email='tjs7321@gmail.com')
+    user2.password_hash = '1234'
+
+    db.session.add(user1)
+    db.session.add(user2)
+    users = [user1, user2]
     for i in range(30):
         
         username = fake.name()
-        while username in usernames:
+        while username in usernames or len(username)<8 or len(username)>20:
             username = fake.name()
         usernames.append(username)
 
@@ -44,10 +53,12 @@ with app.app_context():
 
     print("Creating PrepSessions...")
     prep_sessions = []
+    start_day = datetime.now() - timedelta(days=30)
+    end_day = start_day +timedelta(days=60)
     for i in range(300):
         description = fake.paragraph(nb_sentences=8)
-        start = fake.future_datetime()
-        end = fake.future_datetime()
+        start = fake.date_time_between_dates(datetime_start=start_day, datetime_end=end_day)
+        end = start + timedelta(hours=1)
         
         prep_session = PrepSession(
             title=fake.sentence(),
