@@ -72,7 +72,10 @@ with app.app_context():
     db.session.add_all(prep_sessions)
     
     print("Adding users to sessions...")
-    prep_session_users = []
+    prep_session_users = [PrepSessionUser(
+        user=rc(users),
+        prep_session=rc(prep_sessions)
+        ) for _ in range(600)]
     for session in prep_sessions:
         user = rc(users)
         prep_session_users.append(
