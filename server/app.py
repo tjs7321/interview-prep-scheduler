@@ -63,6 +63,17 @@ class PrepSessions(Resource):
                 401
             )
 
+class PrepSessionByID(Resource):
+    def get(self,id):
+        prep_session = PrepSession.find_by_id(id)
+        print(prep_session.to_dict_full()['users'])
+        return prep_session.to_dict_full(), 200
+    
+    def patch(self,id):
+        pass
+
+    def delete(self,id):
+        pass
 
 class Signup(Resource):
     
@@ -138,7 +149,7 @@ api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(PrepSessions, '/prep_sessions', endpoint='prep_sessions')
-
+api.add_resource(PrepSessionByID,'/prep_sessions/<int:id>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

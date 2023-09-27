@@ -11,7 +11,10 @@ function NewPrepSessionForm() {
         endTime: null}
     const [newPrepSession, setNewPrepSession] = useState(prepSessionFormEmpty)
     const [outcome, setOutcome] = useState('')
+    const [sessionDuration,setSessionDuration] = useState(1)  // HOURS
     const history = useHistory()
+    
+    
 
     const timeConstraints = {
         minutes: {
@@ -43,9 +46,9 @@ function NewPrepSessionForm() {
 
     function handleFormSubmit(e){
         e.preventDefault()
-        console.log(JSON.stringify(newPrepSession))
+        // console.log(JSON.stringify(newPrepSession))
         handleAddPrepSession(newPrepSession)
-        console.log(`outcome: ${outcome}`)
+        // console.log(`outcome: ${outcome}`)
         if (outcome === 'success') {
             history.push('/calendar')} // takes you back to calendar page?
         else {
@@ -67,20 +70,22 @@ function NewPrepSessionForm() {
         try {
             setNewPrepSession({
                 ...newPrepSession,
-                startTime: event
+                startTime: event,
+                endTime: event.clone().add(sessionDuration,'hours')
               })
-              console.log(`Change to string: ${newPrepSession.startTime.toString()}`)
+            //   console.log(`Change to string: ${newPrepSession.startTime.toString()}`)
         } catch {
         }
     }
 
     function handleEndChange(event) {
         try {
+            setSessionDuration(event.diff(newPrepSession.startTime,'hours',true))
             setNewPrepSession({
                 ...newPrepSession,
                 endTime: event
               })
-              console.log(`Change to string: ${newPrepSession.endTime.toString()}`)
+            //   console.log(`Change to string: ${newPrepSession.endTime.toString()}`)
         } catch {
         }
     }

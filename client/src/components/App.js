@@ -6,7 +6,7 @@ import Calendar from '../pages/Calendar';
 import Friends from '../pages/Friends';
 import NewPrepSessionForm from "../pages/NewPrepSessionForm";
 import LoginSignUpPage from "../pages/LoginSignUpPage";
-
+import SessionDetailPage from '../pages/SessionDetailPage'
 function App() {
 
   const [darkMode, setDarkMode] = useState(true)
@@ -62,6 +62,9 @@ function App() {
           <LoginSignUpPage
           onLogin={onLogin}
           />
+        </Route>
+        <Route path='/sessions/:id'>
+          <SessionDetailPage/>
         </Route>
       </Switch>
     </div>
