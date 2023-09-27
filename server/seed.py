@@ -55,7 +55,7 @@ with app.app_context():
     prep_sessions = []
     start_day = datetime.now() - timedelta(days=30)
     end_day = start_day +timedelta(days=60)
-    for i in range(300):
+    for i in range(1000):
         description = fake.paragraph(nb_sentences=8)
         start = fake.date_time_between_dates(datetime_start=start_day, datetime_end=end_day)
         end = start + timedelta(hours=1)
