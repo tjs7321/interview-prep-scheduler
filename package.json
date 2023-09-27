@@ -3,6 +3,7 @@
     "@fullcalendar/core": "^6.1.9",
     "@fullcalendar/daygrid": "^6.1.9",
     "@fullcalendar/react": "^6.1.9",
+    "react-datetime": "^3.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^5.0.1",
     "semantic-ui-css": "^2.5.0",

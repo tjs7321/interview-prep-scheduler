@@ -10,6 +10,7 @@ import LoginSignUpPage from "../pages/LoginSignUpPage";
 function App() {
 
   const [darkMode, setDarkMode] = useState(true)
+
   const [signedIn, setSignedIn] = useState(false)
   const [user, setUser] = useState(null)
 
@@ -25,6 +26,7 @@ function App() {
     setUser(user)
     console.log(`user set to ${user.username}`)
   }
+
 
   function handleDarkModeToggle(){
     setDarkMode(!darkMode)
@@ -47,7 +49,9 @@ function App() {
           <Home {...user}/>
         </Route>
         <Route path="/calendar">
-          <Calendar/>
+          <Calendar
+            user={user}
+          />
         </Route>
         <Route path="/friends">
           <Friends/>

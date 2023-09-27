@@ -14,6 +14,7 @@ with app.app_context():
     print("Deleting all records...")
     PrepSession.query.delete()
     User.query.delete()
+    PrepSessionUser.query.delete()
 
     fake = Faker()
 
