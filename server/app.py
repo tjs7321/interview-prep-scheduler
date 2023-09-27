@@ -38,7 +38,6 @@ class PrepSessions(Resource):
     def post(self):
         if (user_id := session.get('user_id')):
             data = request.get_json()
-            print(type(datetime.date.fromisoformat(data['startTime'])))
             new_prep_session = PrepSession(
                 title=data['title'],
                 description=data['description'],
