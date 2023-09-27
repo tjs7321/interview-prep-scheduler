@@ -11,7 +11,7 @@ function Calendar({userID}) {
         fetch('/prep_sessions')
         .then(r=>r.json())
         .then((data) => {
-            console.log(`initial calendar fetch: ${JSON.stringify(data)}`)  // DEBUG
+            // console.log(`initial calendar fetch: ${JSON.stringify(data)}`)  // DEBUG
             setEvents(data)
         })
     },[])

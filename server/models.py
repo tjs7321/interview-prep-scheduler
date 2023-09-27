@@ -98,7 +98,7 @@ class PrepSession(db.Model):
 
     @classmethod
     def find_by_id(cls,id):
-        return cls.query.filter_by(id=id)
+        return cls.query.filter_by(id=id).first()
 
     def __repr__(self):
         return f'< Session {self.title} from {self.start_time} to {self.end_time} >'
@@ -112,6 +112,14 @@ class PrepSession(db.Model):
             'start':self.start_time.isoformat(),
             'end':self.end_time.isoformat()
         }
+
+    def to_dict_full(self):
+        return {
+            **self.to_dict(),
+            'description': self.description,
+            'users': [user.to_dict() for user in self.users]
+        }
+
 
 class PrepSessionUser(db.Model):
     __tablename__='prep_session_users'
