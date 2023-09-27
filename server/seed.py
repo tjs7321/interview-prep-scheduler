@@ -24,11 +24,11 @@ with app.app_context():
     users = []
     usernames = []
 
-    for i in range(20):
+    for i in range(30):
         
-        username = fake.android_platform_token()
+        username = fake.name()
         while username in usernames:
-            username = fake.android_platform_token()
+            username = fake.name()
         usernames.append(username)
 
         user = User(
@@ -44,7 +44,7 @@ with app.app_context():
 
     print("Creating PrepSessions...")
     prep_sessions = []
-    for i in range(100):
+    for i in range(300):
         description = fake.paragraph(nb_sentences=8)
         start = fake.future_datetime()
         end = fake.future_datetime()
@@ -56,11 +56,23 @@ with app.app_context():
             end_time=end,
         )
 
-        prep_session.user = rc(users)
-
         prep_sessions.append(prep_session)
 
     db.session.add_all(prep_sessions)
     
+    print("Adding users to sessions...")
+    prep_session_users = []
+    for session in prep_sessions:
+        user = rc(users)
+        prep_session_users.append(
+            PrepSessionUser(
+                user=user,
+                prep_session=session
+            )
+        )
+    
+    db.session.add_all(prep_session_users)
+
     db.session.commit()
+    
     print("Complete.")
