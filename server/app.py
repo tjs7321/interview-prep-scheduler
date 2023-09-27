@@ -38,25 +38,28 @@ class PrepSessions(Resource):
     def post(self):
         if (user_id := session.get('user_id')):
             data = request.get_json()
-            new_prep_session = PrepSession(
-                title=data['title'],
-                description=data['description'],
-                start_time=datetime.fromisoformat(data['startTime']),
-                end_time=datetime.fromisoformat(data['endTime'])
-            )
-            db.session.add(new_prep_session)
-            db.session.commit()
-            new_prep_session_user = PrepSessionUser(
-                user_id=user_id,
-                session_id=new_prep_session.id
-            )
-            db.session.add(new_prep_session_user)
-            db.session.commit()                          ### Add validations?
-            
-            return make_response(
-                new_prep_session.to_dict(), 
-                201
-            )
+            try:
+                new_prep_session = PrepSession(
+                    title=data['title'],
+                    description=data['description'],
+                    start_time=datetime.fromisoformat(data['startTime']),
+                    end_time=datetime.fromisoformat(data['endTime'])
+                )
+                db.session.add(new_prep_session)
+                db.session.commit()
+                new_prep_session_user = PrepSessionUser(
+                    user_id=user_id,
+                    session_id=new_prep_session.id
+                )
+                db.session.add(new_prep_session_user)
+                db.session.commit()                          ### Add validations?
+                
+                return make_response(
+                    new_prep_session.to_dict(), 
+                    201
+                )
+            except ValueError as e:
+                return {'error':str(e)}, 422
         else:
             return make_response(
                 {'message': 'Must be logged in'},
@@ -65,15 +68,31 @@ class PrepSessions(Resource):
 
 class PrepSessionByID(Resource):
     def get(self,id):
-        prep_session = PrepSession.find_by_id(id)
-        print(prep_session.to_dict_full()['users'])
-        return prep_session.to_dict_full(), 200
-    
+        if (prep_session:= PrepSession.find_by_id(id)):
+            return prep_session.to_dict_full(), 200
+        else:
+            return {'error':'Resource not found'}, 404
+
     def patch(self,id):
-        pass
+        if (prep_session:= PrepSession.find_by_id(id)):
+            try:
+                for attr in (data:=request.get_json()):
+                    setattr(prep_session,attr,data[attr])
+                db.session.add(prep_session)
+                db.session.commit()
+                return prep_session.to_dict(), 202
+            except ValueError as e:
+                return {'error':str(e)}, 422
+        else:
+            return {'error':'Resource not found'}, 404
 
     def delete(self,id):
-        pass
+        if (prep_session:=PrepSession.find_by_id(id)):
+            db.session.delete(prep_session)
+            db.session.commit()
+            return {}, 204
+        else:
+            return {'error':'Resource not found'}, 404
 
 class Signup(Resource):
     

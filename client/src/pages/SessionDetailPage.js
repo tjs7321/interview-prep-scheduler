@@ -14,8 +14,9 @@ export default function SessionDetailPage() {
         'end':'',
         'users': []
     })
+    const [editing, setEditing] =useState(false)
     const [error, setError] = useState(false)
-
+    const history = useHistory()
 
     useEffect(()=> {
         fetch(`/prep_sessions/${id}`)
@@ -25,23 +26,46 @@ export default function SessionDetailPage() {
                 //console.log(`r.json() = ${r.json()}`)
                 return r.json()
             } else {
+                console.log('error!')
                 setError(true)
+                throw r
             }
         })
         .then(setSessionInfo)
     }, [])
 
+    // EVENT HANDLERS
+    function onClickDelete() {
+        const result = window.confirm("Delete event?")
+        if (result === true){
+            fetch(`/prep_sessions/${id}`, {
+                method: "DELETE",
+            })
+            .then(r=>r.json())
+            .then(history.goBack())         // DOES THIS WORK?
+        }
+    }
+
+    function onClickEdit() {
+        setEditing(true)
+    }
+
+    // RENDERED PIECES
     const renderedUserList = sessionInfo['users'].map(result => {
         return (
             <li key={result['id']}>{result['username']}</li>
         )
     })
-
-    if (sessionInfo != {}) {
+    
+    
+    // PAGE RENDER
+    if (sessionInfo['title']) {
         console.log(`sessionInfo['users']: ${sessionInfo['users']}`)
         return (
             <div>
                 <h1>Session Detail Page for session {id}!</h1>
+                <button onClick={onClickDelete}>Click to Delete</button>
+                <button onClick={onClickEdit}>Click to Edit</button>
                 <ul>
                     <li>{sessionInfo['title']}</li>
                     <li>{sessionInfo['description']}</li>
@@ -55,7 +79,7 @@ export default function SessionDetailPage() {
         return (
             <div>
                 <h1>Could not find session</h1>
-                <button>Return to homepage?</button>
+                <button onClick={()=>history.goBack()}>Return to homepage?</button>
             </div>
         )
     }  else {
