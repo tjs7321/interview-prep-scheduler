@@ -44,6 +44,9 @@ instance
 /db/*.sqlite3
 /db/*.sqlite3-journal
 
+# Ignore the database file
+server/instance/app.db
+
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
