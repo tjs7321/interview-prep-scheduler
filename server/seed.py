@@ -3,6 +3,7 @@
 from random import randint, choice as rc
 from datetime import datetime, timedelta
 from faker import Faker
+from sqlalchemy import text
 
 from app import app
 from models import db, PrepSession, User, PrepSessionUser
@@ -55,10 +56,13 @@ with app.app_context():
 
         users.append(user)
     
-    # for user in users:
-    #     for i in range(30):
-    #         if user != users[i]:
-    #             user.followers.append(users[i])
+    query = text('DELETE FROM follow')
+    db.session.execute(query)               ## Deletes all follows
+
+    for user in users:
+        for i in range(30):
+            if user != users[i]:
+                user.followers.append(users[i])
 
     db.session.add_all(users)
 

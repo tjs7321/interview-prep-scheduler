@@ -4,7 +4,7 @@
 
 # Remote library imports
 from flask import request, make_response, session
-
+from sqlalchemy import text
 from flask_restful import Resource
 from datetime import datetime
 
@@ -165,17 +165,42 @@ class PrepSessionsHomeScreen(Resource):
     def get(self):
         if (user_id := session.get('user_id')):
             user = User.find_by_id(user_id)
-            user_prep_sessions = [prep_session.to_dict() for prep_session in user.prep_sessions]
-            sorted_prep_sessions = sorted(user_prep_sessions, key=lambda x: x['start'])
+            today = datetime.now() #.split(' ')          ## ADD FORMATTING
+            query = text(f"""
+                            SELECT prep_sessions.id, prep_sessions.title, prep_sessions.start, prep_sessions.end 
+                            FROM prep_session_users
+                            JOIN prep_sessions 
+                            ON prep_session_users.session_id = prep_sessions.id
+                            WHERE prep_session_users.user_id = {user_id}
+                            AND prep_sessions.start >= '{today}'
+                            LIMIT 10
+                        """)
+            response = db.session.execute(query).all()
             limited_prep_sessions = []
-            for prep_session in sorted_prep_sessions:
-                if len(limited_prep_sessions) < 10:
-                    print(prep_session)
-                    limited_prep_sessions.append(prep_session)
+            keys = ('id','title','start','end')
+            for prep_session in response:
+                limited_prep_sessions.append(dict(zip(keys,prep_session)))
+            limited_prep_sessions.sort(key=lambda x: x['start'])
+            ## FETCH ALL, THEN FILTER/SORT
+            # user_prep_sessions = [prep_session.to_dict() \
+            #                     for prep_session in user.prep_sessions \
+            #                     if prep_session.start >= datetime.now()]
+            # sorted_prep_sessions = sorted(user_prep_sessions, key=lambda x: x['start'])
+            # limited_prep_sessions = []
+            # for prep_session in sorted_prep_sessions:
+            #     if len(limited_prep_sessions) < 10:
+            #         # print(prep_session)
+            #         limited_prep_sessions.append(prep_session)
+            # ##
+
             return limited_prep_sessions, 200
         else:
             return {'message': 'Must be logged in'}, 401
         
+
+
+
+
 class FollowersList(Resource):
     
     def get(self):
