@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 function Calendar({userID}) {
     
     const [events, setEvents] = useState([])
+
+    const history = useHistory()
 
     useEffect(() => {
         fetch('/prep_sessions')
@@ -18,6 +20,10 @@ function Calendar({userID}) {
 
     
 
+    function handleEventClick(e) {
+        history.push(`/sessions/${e.event.id}`)
+    }
+
     return(
         <div>
             <h1>Calendar Page</h1>
@@ -28,6 +34,7 @@ function Calendar({userID}) {
             plugins={[ dayGridPlugin ]}
             initialView="dayGridMonth"
             events = {events}
+            eventClick={handleEventClick}
             />
         </div>
     )
