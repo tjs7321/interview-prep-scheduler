@@ -7,8 +7,8 @@ function NewPrepSessionForm() {
     const prepSessionFormEmpty = {
         title: "",
         description: "",
-        startTime: null,
-        endTime: null}
+        start: null,
+        end: null}
     const [newPrepSession, setNewPrepSession] = useState(prepSessionFormEmpty)
     const [outcome, setOutcome] = useState('')
     const [sessionDuration,setSessionDuration] = useState(1)  // HOURS
@@ -26,8 +26,8 @@ function NewPrepSessionForm() {
         const body = JSON.stringify({
             title: newSession.title,
             description: newSession.description,
-            startTime: newSession.startTime.format(),
-            endTime: newSession.endTime.format()
+            start: newSession.start.format(),
+            end: newSession.end.format()
         })
         // console.log(`body: ${body}`)
         fetch('/prep_sessions', {
@@ -70,22 +70,22 @@ function NewPrepSessionForm() {
         try {
             setNewPrepSession({
                 ...newPrepSession,
-                startTime: event,
-                endTime: event.clone().add(sessionDuration,'hours')
+                start: event,
+                end: event.clone().add(sessionDuration,'hours')
               })
-            //   console.log(`Change to string: ${newPrepSession.startTime.toString()}`)
+            //   console.log(`Change to string: ${newPrepSession.start.toString()}`)
         } catch {
         }
     }
 
     function handleEndChange(event) {
         try {
-            setSessionDuration(event.diff(newPrepSession.startTime,'hours',true))
+            setSessionDuration(event.diff(newPrepSession.start,'hours',true))
             setNewPrepSession({
                 ...newPrepSession,
-                endTime: event
+                end: event
               })
-            //   console.log(`Change to string: ${newPrepSession.endTime.toString()}`)
+            //   console.log(`Change to string: ${newPrepSession.end.toString()}`)
         } catch {
         }
     }
@@ -120,7 +120,7 @@ function NewPrepSessionForm() {
                     <div>
                         <Datetime 
                             onChange={handleStartChange}
-                            value={newPrepSession.startTime}
+                            value={newPrepSession.start}
                             timeConstraints={timeConstraints}
                             inputProps={{placeholder:"Start Time"}}
                         />
@@ -128,7 +128,7 @@ function NewPrepSessionForm() {
                     <div>
                         <Datetime 
                             onChange={handleEndChange}
-                            value={newPrepSession.endTime}
+                            value={newPrepSession.end}
                             timeConstraints={timeConstraints}
                             inputProps={{placeholder:"End Time"}}
                         />

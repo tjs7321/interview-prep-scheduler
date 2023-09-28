@@ -42,8 +42,8 @@ class PrepSessions(Resource):
                 new_prep_session = PrepSession(
                     title=data['title'],
                     description=data['description'],
-                    start_time=datetime.fromisoformat(data['startTime']),
-                    end_time=datetime.fromisoformat(data['endTime'])
+                    start=datetime.fromisoformat(data['start']),
+                    end=datetime.fromisoformat(data['end'])
                 )
                 db.session.add(new_prep_session)
                 db.session.commit()
@@ -76,8 +76,12 @@ class PrepSessionByID(Resource):
     def patch(self,id):
         if (prep_session:= PrepSession.find_by_id(id)):
             try:
-                for attr in (data:=request.get_json()):
-                    setattr(prep_session,attr,data[attr])
+                data=request.get_json()
+                prep_session.title = data['title']
+                prep_session.description = data['description']
+                prep_session.start = datetime.fromisoformat(data['start']) 
+                prep_session.end = datetime.fromisoformat(data['end'])
+                
                 db.session.add(prep_session)
                 db.session.commit()
                 return prep_session.to_dict(), 202

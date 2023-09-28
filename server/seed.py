@@ -63,8 +63,8 @@ with app.app_context():
         prep_session = PrepSession(
             title=fake.sentence(),
             description=description,
-            start_time=start,
-            end_time=end,
+            start=start,
+            end=end,
         )
 
         prep_sessions.append(prep_session)
