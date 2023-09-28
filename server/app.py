@@ -197,9 +197,24 @@ class PrepSessionsHomeScreen(Resource):
         else:
             return {'message': 'Must be logged in'}, 401
         
+class PrepSessionUsers(Resource):
+    def post(self):
+        data = request.get_json()
+        try:
+            new_prep_session_user = PrepSessionUser(user_id=data['user_id'], session_id=data['session_id'])
+            db.session.add(new_prep_session_user)
+            db.session.commit()
+            return {'message':'success'}, 201
+        except ValueError as e:
+            return e, 422
 
-
-
+class FollowingList(Resource):
+    def get(self):
+        if (id:=session.get('user_id')):
+            user = User.find_by_id(id)
+            return [following.to_dict() for following in user.following], 200
+        else:
+            return {'message': 'Must be logged in'}, 401
 
 class FollowersList(Resource):
     
@@ -253,8 +268,10 @@ api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(PrepSessions, '/prep_sessions', endpoint='prep_sessions')
 api.add_resource(PrepSessionByID,'/prep_sessions/<int:id>')
+api.add_resource(PrepSessionUsers, '/prep_session_users')
 api.add_resource(PrepSessionsHomeScreen, '/prep_sessions_home_screen', endpoint='prep_sessions_home_screen')
 api.add_resource(FollowersList, '/followers_list', endpoint='followers_list')
+api.add_resource(FollowingList, '/following_list', endpoint='following_list')
 api.add_resource(Users, '/users', endpoint='users')
 
 
