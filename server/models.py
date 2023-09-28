@@ -87,8 +87,8 @@ class PrepSession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
     description = db.Column(db.String)
-    start_time = db.Column(db.DateTime)
-    end_time = db.Column(db.DateTime)
+    start = db.Column(db.DateTime)
+    end = db.Column(db.DateTime)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -101,7 +101,7 @@ class PrepSession(db.Model):
         return cls.query.filter_by(id=id).first()
 
     def __repr__(self):
-        return f'< Session {self.title} from {self.start_time} to {self.end_time} >'
+        return f'< Session {self.title} from {self.start} to {self.end} >'
     ##  Add validator for end-time > start-time
 
     def to_dict(self):
@@ -109,8 +109,8 @@ class PrepSession(db.Model):
             'id':self.id,
             'title':self.title,
             # 'description':self.description,
-            'start':self.start_time.isoformat(),
-            'end':self.end_time.isoformat()
+            'start':self.start.isoformat(),
+            'end':self.end.isoformat()
         }
 
     def to_dict_full(self):
@@ -119,7 +119,6 @@ class PrepSession(db.Model):
             'description': self.description,
             'users': [user.to_dict() for user in self.users]
         }
-
 
 class PrepSessionUser(db.Model):
     __tablename__='prep_session_users'

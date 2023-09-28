@@ -4,6 +4,9 @@ import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
+import PrepSessionDetailContainer from "../components/PrepSessionDetailContainer";
+import PrepSessionUserListContainer from "../components/PrepSessionUserListContainer";
+
 export default function SessionDetailPage() {
 
     const {id} = useParams()
@@ -11,9 +14,9 @@ export default function SessionDetailPage() {
         'title': '',
         'description':'',
         'start':'',
-        'end':'',
-        'users': []
+        'end':''
     })
+    const [sessionUsers, setSessionUsers] = useState([])
     const [editing, setEditing] =useState(false)
     const [error, setError] = useState(false)
     const history = useHistory()
@@ -22,17 +25,23 @@ export default function SessionDetailPage() {
         fetch(`/prep_sessions/${id}`)
         .then(r=>{
             if (r.ok) {
-                console.log(`r = ${r}`)
-                //console.log(`r.json() = ${r.json()}`)
-                return r.json()
+                return r.json().then(data=> {
+                    setSessionInfo({
+                        'title':data['title'],
+                        'description':data['description'],
+                        'start':data['start'],
+                        'end':data['end']
+                    })
+                    setSessionUsers(data['users'])
+                })
             } else {
                 console.log('error!')
                 setError(true)
-                throw r
+                
             }
         })
-        .then(setSessionInfo)
-    }, [])
+    }, [editing]) // Why isn't this re rendering every time....
+
 
     // EVENT HANDLERS
     function onClickDelete() {
@@ -46,40 +55,66 @@ export default function SessionDetailPage() {
         }
     }
 
-    function onClickEdit() {
-        setEditing(true)
+    function handleSessionUpdate(data) {
+        const body = JSON.stringify({
+            title: data['title'],
+            description: data['description'],
+            start: data['start'].format(),
+            end: data['end'].format()
+        })
+        fetch(`/prep_sessions/${id}`, {
+            method: "PATCH",
+            headers: {"content-type": "application/json", "accepts":"application/json"},
+            body: body
+        }).then(r=>{
+            if (r.ok) {
+                return r.json().then(data => {
+                    setSessionInfo(data)
+                    setEditing(false)
+                })
+            } else {
+                console.log('error!')
+                setError(true)
+                setEditing(false)
+            }
+        })
+        // setEditing(false)
     }
 
-    // RENDERED PIECES
-    const renderedUserList = sessionInfo['users'].map(result => {
-        return (
-            <li key={result['id']}>{result['username']}</li>
-        )
-    })
+    function handleAddUser() {
+
+    }
+
+    function onClickEdit() {
+        setEditing(editing=>!editing)
+    }
+    
     
     
     // PAGE RENDER
     if (sessionInfo['title']) {
-        console.log(`sessionInfo['users']: ${sessionInfo['users']}`)
+        //console.log(`sessionInfo['users']: ${sessionInfo['users']}`)
         return (
             <div>
                 <h1>Session Detail Page for session {id}!</h1>
-                <button onClick={onClickDelete}>Click to Delete</button>
-                <button onClick={onClickEdit}>Click to Edit</button>
-                <ul>
-                    <li>{sessionInfo['title']}</li>
-                    <li>{sessionInfo['description']}</li>
-                    <li>{sessionInfo['start']}</li>
-                    <li>{sessionInfo['end']}</li>
-                    {renderedUserList}
-                </ul>
+                <PrepSessionDetailContainer
+                    sessionInfo={sessionInfo}
+                    handleSessionUpdate={handleSessionUpdate}
+                    editing={editing}
+                    onClickDelete={onClickDelete}
+                    onClickEdit={onClickEdit}
+                />
+                <PrepSessionUserListContainer
+                    users={sessionUsers}
+                    handleAddUser={handleAddUser}
+                />
             </div>
         )
     } else if (error) {
         return (
             <div>
                 <h1>Could not find session</h1>
-                <button onClick={()=>history.goBack()}>Return to homepage?</button>
+                <button onClick={()=>history.push('/')}>Return to homepage?</button>
             </div>
         )
     }  else {
