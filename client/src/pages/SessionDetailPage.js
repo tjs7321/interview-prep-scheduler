@@ -18,6 +18,7 @@ export default function SessionDetailPage() {
     })
     const [sessionUsers, setSessionUsers] = useState([])
     const [editing, setEditing] =useState(false)
+    const [addingUsers, setAddingUsers] = useState(false)
     const [error, setError] = useState(false)
     const history = useHistory()
 
@@ -81,12 +82,14 @@ export default function SessionDetailPage() {
         // setEditing(false)
     }
 
-    function handleAddUser() {
-
-    }
-
     function onClickEdit() {
         setEditing(editing=>!editing)
+    }
+    
+    
+
+    function onClickAddUsers() {
+        setAddingUsers(a => !a)
     }
     
     
@@ -106,7 +109,9 @@ export default function SessionDetailPage() {
                 />
                 <PrepSessionUserListContainer
                     users={sessionUsers}
-                    handleAddUser={handleAddUser}
+                    addingUsers={addingUsers}
+                    onClickAdd={onClickAddUsers}
+                    session_id={id}
                 />
             </div>
         )
