@@ -8,6 +8,10 @@ function PrepSessionsTile({id, title, start}) {
         return moment(isodate).format('MM-DD-YY @ h:mm')
     }
 
+    function formatDate(isodate) {
+        return moment(isodate).format('MM-DD-YYYY h:mm')
+    }
+
     return(
         <div class="four wide column"
         >

@@ -41,9 +41,14 @@ with app.app_context():
             username = fake.name()
         usernames.append(username)
 
+        email = f'{username.split(" ")[0].lower()}' \
+            + username.split(" ")[1][0].lower() \
+            + str(randint(1,100)) \
+            + '@gmail.com'
+
         user = User(
             username=username,
-            email=fake.email(),
+            email=email #fake.email()
         )
 
         user.password_hash = user.username + 'password'
