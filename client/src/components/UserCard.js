@@ -1,20 +1,20 @@
 import React, {useState, useEffect} from "react";
 
-function FriendCard({id, username, email, handleRemoveFriend, friend}) {
+function UserCard({id, username, email, handleAddFriend, user}) {
 
-    function handleRemoveClick(){
+    function handleFollowClick(){
         const body = JSON.stringify({
             id: id,
         })
         fetch('/followers_list', {
-            method: 'DELETE',
+            method: 'POST',
             headers: {"content-type": "application/json", "accepts":"application/json"},
             body: body
         }).then((r)=>{
             if (r.ok) {
                 r.json()
                 .then(console.log(r))
-                handleRemoveFriend(friend)
+                handleAddFriend(user)
             } else {
                 console.log('nop')
             }
@@ -27,10 +27,10 @@ function FriendCard({id, username, email, handleRemoveFriend, friend}) {
             <p>{email}</p>
             <button
             class="ui button"
-            onClick={handleRemoveClick}
-            >Unfollow</button>
+            onClick={handleFollowClick}
+            >Follow</button>
         </div>
     )
 }
 
-export default FriendCard
+export default UserCard
