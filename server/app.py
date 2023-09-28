@@ -193,10 +193,9 @@ class FollowersList(Resource):
                 id=data['id']
                 pot_follow = User.query.filter_by(id=id).first()
                 user.followers.append(pot_follow)
-                # db.session.add()
-                # db.session.commit()                          ### Add validations?
+                db.session.commit()
                 
-                return 201
+                return {}, 201
             except ValueError as e:
                 return {'error':str(e)}, 422
         else:
