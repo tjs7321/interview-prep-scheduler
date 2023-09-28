@@ -91,6 +91,13 @@ export default function SessionDetailPage() {
     function onClickAddUsers() {
         setAddingUsers(a => !a)
     }
+
+    function handleAddFollowingToSession(newUser){
+        setSessionUsers([
+            ...sessionUsers,
+            newUser
+        ])
+    }
     
     
     
@@ -112,6 +119,7 @@ export default function SessionDetailPage() {
                     addingUsers={addingUsers}
                     onClickAdd={onClickAddUsers}
                     session_id={id}
+                    onInvite={handleAddFollowingToSession}
                 />
             </div>
         )

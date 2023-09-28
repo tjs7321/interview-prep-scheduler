@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 
-export default function FollowToAddTile({id, username, email, session_id}) {
+export default function FollowToAddTile({id, username, email, session_id,onInvite}) {
 
+    
     function handleAddToSession(){
         const body = JSON.stringify({
             user_id: id,
@@ -13,7 +14,11 @@ export default function FollowToAddTile({id, username, email, session_id}) {
             body: body
         }).then((r)=>{
             if (r.ok) {
-                console.log('added')
+                onInvite({
+                    id: id,
+                    username: username,
+                    email: email
+                })
             } else {
                 console.log('nop')
             }

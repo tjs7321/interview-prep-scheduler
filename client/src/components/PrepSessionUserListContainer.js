@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import FollowToAddTile from "./FollowToAddTile"
 
 export default function PrepSessionUserListContainer(props) {
-    const {users, addingUsers, onClickAdd, session_id} = props
+    const {users, addingUsers, onClickAdd, session_id, onInvite} = props
     const [following, setFollowing] = useState([])
 
     useEffect(()=> {
@@ -17,12 +17,20 @@ export default function PrepSessionUserListContainer(props) {
             <li key={result['id']}>{result['username']}</li>
         )
     })
-    const renderedFriendsList = following.map(friend => {
+
+    const attendingIDs = users.map(user=>user.id)
+    const toInvite = following.filter(friend=>{
+        
+        return !attendingIDs.includes(friend.id)})
+
+    const renderedFriendsList = toInvite.map(friend => {
         return (
                 <FollowToAddTile
                 {...friend}
                 session_id={session_id}
                 key={friend.id}
+                users={users}
+                onInvite={onInvite}
                 />)}
     )
     
@@ -40,7 +48,7 @@ export default function PrepSessionUserListContainer(props) {
     } else {
         return (
             <div>
-                <button onClick={onClickAdd}>Cancel</button>
+                <button onClick={onClickAdd}>Done</button>
                 <h4>Your follows: </h4>
                 <div class="ui grid">
                     {renderedFriendsList}
