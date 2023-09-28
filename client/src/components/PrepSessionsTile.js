@@ -3,12 +3,8 @@ import { NavLink } from "react-router-dom";
 
 function PrepSessionsTile({id, title, start}) {
 
-    function handleClick(){
-        console.log(`${id} was clicked!`)
-    }
-
     return(
-        <div>
+        <div class="four wide column">
             <NavLink
             to={`/sessions/${id}`}
             >{title}</NavLink>
