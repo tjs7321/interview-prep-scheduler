@@ -35,6 +35,7 @@ class User(db.Model):
                                 secondaryjoin = (follow.c.follower_id == id),
                                 backref = 'following')
     
+
     @hybrid_property
     def password_hash(self):
         raise AttributeError('Password hashes may not be viewed.')
