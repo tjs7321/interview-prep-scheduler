@@ -22,13 +22,17 @@ function UserCard({id, username, email, handleAddFriend, user}) {
     }
 
     return(
-        <div class="four wide column">
-            <p>{username}</p>
-            <p>{email}</p>
-            <button
-            class="ui button"
-            onClick={handleFollowClick}
-            >Follow</button>
+        <div class="column">
+            <div class="ui raised card">
+                <div class="content">
+                    <div class="center aligned header">{username}</div>
+                    <div class="center aligned description">{email}</div>
+                </div>
+                <div
+                class="ui bottom attached button"
+                onClick={handleFollowClick}
+                >Follow</div>
+            </div>
         </div>
     )
 }

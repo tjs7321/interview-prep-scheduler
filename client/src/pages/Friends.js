@@ -3,7 +3,7 @@ import FriendCard from "../components/FriendCard";
 import UserCard from "../components/UserCard";
 import FriendsSearchBar from "../components/FriendsSearchBar";
 
-function Friends() {
+function Friends({darkMode}) {
 
     const [allUsers, setAllUsers] = useState([])
     const [allFriends, setAllFriends] = useState([])
@@ -73,15 +73,17 @@ function Friends() {
     })
 
     return(
-        <div>
-            <div>
+        <div class="ui segments">
+            <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
                 <h1 class="ui center aligned icon header">Friends</h1>
                 <FriendsSearchBar
+                darkMode={darkMode}
                 handleSearchChange={handleSearchFriendsChange}
                 />
-                <div class="ui grid">
+                <div class="ui padded three column grid">
                     {filteredFriends.map((friend) =>
                     <FriendCard
+                    darkMode={darkMode}
                     handleRemoveFriend={handleRemoveFriend}
                     friend={friend}
                     {...friend}
@@ -89,14 +91,16 @@ function Friends() {
                     />)}
                 </div>
             </div>
-            <div>
+            <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
                 <h1 class="ui center aligned icon header">Find</h1>
                 <FriendsSearchBar
+                darkMode={darkMode}
                 handleSearchChange={handleSearchChange}
                 />
-                <div class="ui grid">
+                <div class="ui padded three column grid">
                     {usersWithoutFriends.map((user) =>
                     <UserCard
+                    darkMode={darkMode}
                     user={user}
                     handleAddFriend={handleAddFriend}
                     {...user}
