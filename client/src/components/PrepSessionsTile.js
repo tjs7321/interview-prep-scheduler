@@ -1,10 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import moment from 'moment-timezone'
+
 function PrepSessionsTile({id, title, start}) {
 
-    function handleClick(){
-        console.log(`${id} was clicked!`)
+    function formatDate(isodate) {
+        return moment(isodate).format('MM-DD-YY @ h:mm')
     }
 
     function formatDate(isodate) {
@@ -12,7 +13,8 @@ function PrepSessionsTile({id, title, start}) {
     }
 
     return(
-        <div>
+        <div class="four wide column"
+        >
             <NavLink
             to={`/sessions/${id}`}
             >{title}</NavLink>
