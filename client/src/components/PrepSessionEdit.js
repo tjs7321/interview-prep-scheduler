@@ -3,6 +3,8 @@ import Datetime from 'react-datetime'
 import "react-datetime/css/react-datetime.css";
 import moment from 'moment-timezone'
 
+import ErrorMessage from './ErrorMessage';
+
 export default function PrepSessionEdit(props) {
 
     const {sessionInfo, onSubmit, onCancel} = props
@@ -14,7 +16,7 @@ export default function PrepSessionEdit(props) {
         end: moment(sessionInfo['end'])
     })
     const [sessionDuration,setSessionDuration] = useState(1)  // HOURS
-    
+    const [errorMessage, setErrorMessage] = useState('')
     
 
     const timeConstraints = {
@@ -43,13 +45,18 @@ export default function PrepSessionEdit(props) {
         }
     }
 
-    function handleEndChange(event) {
+    function handleEndChange(chosenEnd) {
         try {
-            setSessionDuration(event.diff(formData.start,'hours',true))
-            setFormData({
-                ...formData,
-                end: event
-              })
+            if (chosenEnd < formData.start){
+                setErrorMessage('End time must be after start time')
+            } else {
+                setErrorMessage('')
+                setSessionDuration(chosenEnd.diff(formData.start,'hours',true))
+                setFormData({
+                    ...formData,
+                    end: chosenEnd
+                  })
+            }
             //   console.log(`Change to string: ${FormData.end.toString()}`)
         } catch {
         }
@@ -61,9 +68,14 @@ export default function PrepSessionEdit(props) {
         
     }
 
+    function isValidEnd(end) {
+        return end >= formData.start
+    }
+
     return (
         <div>
             <h2>Edit Prep Session</h2>
+            <ErrorMessage error={errorMessage}/>
             <div>
                 <form onSubmit={handleSubmit}>
                     <div>
@@ -99,6 +111,7 @@ export default function PrepSessionEdit(props) {
                         <Datetime 
                             onChange={handleEndChange}
                             value={formData.end}
+                            isValidDate={isValidEnd}
                             timeConstraints={timeConstraints}
                             inputProps={{placeholder:"End Time"}}
                         />

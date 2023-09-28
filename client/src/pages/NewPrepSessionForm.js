@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
 
+import ErrorMessage from '../components/ErrorMessage'
+
 function NewPrepSessionForm() {
     const prepSessionFormEmpty = {
         title: "",
@@ -10,8 +12,9 @@ function NewPrepSessionForm() {
         start: null,
         end: null}
     const [newPrepSession, setNewPrepSession] = useState(prepSessionFormEmpty)
-    const [outcome, setOutcome] = useState('')
     const [sessionDuration,setSessionDuration] = useState(1)  // HOURS
+    const [errorMessage, setErrorMessage] = useState('')
+
     const history = useHistory()
     
     
@@ -36,22 +39,22 @@ function NewPrepSessionForm() {
             body: body
         }).then((r)=>{
             if (r.ok) {
-                setOutcome('success')
+                return 'success'       
             } else {
                 console.log(r)
-                setOutcome(r.json()['message'])
+                return r.json()['message']
             }
         })
     }
 
     function handleFormSubmit(e){
         e.preventDefault()
-        // console.log(JSON.stringify(newPrepSession))
-        handleAddPrepSession(newPrepSession)
-        // console.log(`outcome: ${outcome}`)
+        
+        const outcome = handleAddPrepSession(newPrepSession)
         if (outcome === 'success') {
             history.push('/calendar')} // takes you back to calendar page?
         else {
+            console.log(`outcome: ${outcome}`)
             history.push('/calendar')
         }
         
@@ -66,34 +69,40 @@ function NewPrepSessionForm() {
         })
       }
     
-    function handleStartChange(event) {
+    function handleStartChange(chosenStart) {
         try {
             setNewPrepSession({
                 ...newPrepSession,
-                start: event,
-                end: event.clone().add(sessionDuration,'hours')
+                start: chosenStart,
+                end: chosenStart.clone().add(sessionDuration,'hours')
               })
-            //   console.log(`Change to string: ${newPrepSession.start.toString()}`)
         } catch {
         }
     }
 
-    function handleEndChange(event) {
+    function handleEndChange(chosenEnd) {
         try {
-            setSessionDuration(event.diff(newPrepSession.start,'hours',true))
-            setNewPrepSession({
-                ...newPrepSession,
-                end: event
-              })
-            //   console.log(`Change to string: ${newPrepSession.end.toString()}`)
+            if (chosenEnd < newPrepSession.start){
+                setErrorMessage('End time must be after start time')
+            }else {
+                setSessionDuration(chosenEnd.diff(newPrepSession.start,'hours',true))
+                setNewPrepSession({
+                    ...newPrepSession,
+                    end: chosenEnd
+                  })
+            }
         } catch {
         }
     }
 
+    function isValidEnd(end) {
+        return end >= newPrepSession.start
+    }
 
     return (
         <div>
             <h2>New Prep Session Form</h2>
+            <ErrorMessage error={errorMessage}/>
             <div>
                 <form onSubmit={handleFormSubmit}>
                     <div>
@@ -129,6 +138,7 @@ function NewPrepSessionForm() {
                         <Datetime 
                             onChange={handleEndChange}
                             value={newPrepSession.end}
+                            isValidDate={isValidEnd}
                             timeConstraints={timeConstraints}
                             inputProps={{placeholder:"End Time"}}
                         />

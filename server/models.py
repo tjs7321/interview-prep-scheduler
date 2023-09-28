@@ -33,8 +33,7 @@ class User(db.Model):
                                 secondary = follow, 
                                 primaryjoin = (follow.c.following_id == id),
                                 secondaryjoin = (follow.c.follower_id == id),
-                                backref = 'following'
-                                )
+                                backref = 'following')
     
     @hybrid_property
     def password_hash(self):
@@ -85,10 +84,10 @@ class PrepSession(db.Model):
     __tablename__ = 'prep_sessions'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String)
-    description = db.Column(db.String)
-    start = db.Column(db.DateTime)
-    end = db.Column(db.DateTime)
+    title = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    start = db.Column(db.DateTime, nullable=False)
+    end = db.Column(db.DateTime, nullable=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -119,6 +118,12 @@ class PrepSession(db.Model):
             'description': self.description,
             'users': [user.to_dict() for user in self.users]
         }
+    
+    @validates('start','end')               ## This should set self.start, then use it to compare with potential end value
+    def validate_end(self,key,value):
+        if key == 'end' and value <= self.start:
+            raise ValueError('End time must be after start time')
+        return value
 
 class PrepSessionUser(db.Model):
     __tablename__='prep_session_users'

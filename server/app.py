@@ -170,6 +170,7 @@ class PrepSessionsHomeScreen(Resource):
             limited_prep_sessions = []
             for prep_session in sorted_prep_sessions:
                 if len(limited_prep_sessions) < 10:
+                    print(prep_session)
                     limited_prep_sessions.append(prep_session)
             return limited_prep_sessions, 200
         else:
