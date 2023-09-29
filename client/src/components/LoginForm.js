@@ -52,6 +52,7 @@ function LoginForm({onLogin}) {
                         />
                     </div>
                 <button
+                className='ui button'
                 type="submit"
                 >Submit</button>
                 </form>

@@ -14,7 +14,9 @@
 
 .sessionTitle {
   padding: 1rem;
-  color: var(--header)
+  color: var(--header);
+  max-width: 500px;
+  text-align: center;
 }
 
 .sessionDescription {
@@ -29,14 +31,44 @@
   padding: 1rem
 }
 
+.startEndTime {
+  text-align: center;
+  padding: 1rem
+}
+
+.editForm {
+  min-width:400px;
+}
+
+.submitCancelButtons {
+  padding-top:1rem
+}
+
+.userListContainer {
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .sessionUserList {
   list-style-type: none;
-  margin: 1rem
+  margin: 1rem;
 }
+
+
 
 .usersToAdd {
   display: flex;
   flex-direction: row;
   justify-content: center;
   padding: 1rem
+}
+
+.calendarPage {
+  padding: 2rem;
+}
+
+.loginSignup {
+  padding:1rem
 }

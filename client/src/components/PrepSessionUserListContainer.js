@@ -14,7 +14,7 @@ export default function PrepSessionUserListContainer(props) {
     // RENDERED PIECES
     const renderedUserList = users.map(result => {
         return (
-            <li key={result['id']}>{result['username']}</li>
+            <p key={result['id']}>{result['username']}</p>
         )
     })
 
@@ -38,20 +38,21 @@ export default function PrepSessionUserListContainer(props) {
 
     if (!addingUsers) {
         return (
-            <div>
-                <div className='editDeleteAddButtons'>
-                    <button onClick={onClickAdd}>Add friends...</button>
-                </div>
-                <ul className='sessionUserList'>
+            <div className='userListContainer'>
+                <h3>Attending:</h3>
+                <div className='sessionUserList'>
                     {renderedUserList}
-                </ul>
+                </div>
+                <div className='editDeleteAddButtons'>
+                    <button className='ui button' onClick={onClickAdd}>Add friends...</button>
+                </div>
             </div>
         )
     } else {
         return (
-            <div>
+            <div className='userListContainer'>
                 <div className='editDeleteAddButtons'>
-                    <button onClick={onClickAdd}>Done</button>
+                    <button className='ui button' onClick={onClickAdd}>Done</button>
                 </div>
                 <div>
                     <h2 className='usersToAdd'>Your follows: </h2>

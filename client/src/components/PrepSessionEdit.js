@@ -73,12 +73,13 @@ export default function PrepSessionEdit(props) {
     }
 
     return (
-        <div>
+        <div className='editForm'>
             <h2>Edit Prep Session</h2>
             <ErrorMessage error={errorMessage}/>
             <div>
-                <form onSubmit={handleSubmit}>
-                    <div>
+                <form onSubmit={handleSubmit} className='ui form'>
+                    <div className='field'>
+                        <label>Event Title</label>
                         <input
                         style={{margin:"3px"}}
                         required
@@ -88,8 +89,10 @@ export default function PrepSessionEdit(props) {
                         onChange={handleTextChange}
                         value={formData.title}/>
                     </div>
-                    <div>
-                        <input
+                    <div className='field'>
+                        <label>Description</label>
+                        <textarea
+                        rows='4'
                         style={{margin:"3px"}}
                         required
                         type="text"
@@ -100,6 +103,7 @@ export default function PrepSessionEdit(props) {
                     </div>
                     
                     <div>
+                        <label>Start</label>
                         <Datetime 
                             onChange={handleStartChange}
                             value={formData.start}
@@ -108,6 +112,7 @@ export default function PrepSessionEdit(props) {
                         />
                     </div>
                     <div>
+                        <label>End</label>
                         <Datetime 
                             onChange={handleEndChange}
                             value={formData.end}
@@ -116,13 +121,18 @@ export default function PrepSessionEdit(props) {
                             inputProps={{placeholder:"End Time"}}
                         />
                     </div>
-                    
-                <button
-                type="submit"
-                >Submit</button>
+                    <div className='submitCancelButtons'>
+                        <button
+                        className='ui button'
+                        type="submit"
+                        >Submit</button>
+                        
+                        <button
+                        className='ui button'
+                        onClick={onCancel}>Cancel</button>
+                    </div>
                 </form>
             </div>
-            <button onClick={onCancel}>Cancel</button>
         </div>
     )
 }
