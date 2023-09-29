@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-function UserCard({id, username, email, handleAddFriend, user}) {
+function UserCard({id, username, email, handleAddFriend, user, darkMode}) {
 
     function handleFollowClick(){
         const body = JSON.stringify({
@@ -29,7 +29,7 @@ function UserCard({id, username, email, handleAddFriend, user}) {
                     <div class="center aligned description">{email}</div>
                 </div>
                 <div
-                class="ui bottom attached button"
+                class={darkMode?"ui inverted primary button":"ui primary button"}
                 onClick={handleFollowClick}
                 >Follow</div>
             </div>

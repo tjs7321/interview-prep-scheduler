@@ -7,23 +7,31 @@ function LoginSignUpPage({onLogin, darkMode}) {
     const [login, setLogin] = useState(true)
 
     return (
-        <div className='loginSignup'>
+        <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
             <h1>{login? "Login" : "Sign Up"}</h1>
             {login? (
                 <>
                     <LoginForm
                     darkMode={darkMode}
                     onLogin={onLogin} />
-                    <p>New here?</p>
-                    <button className='ui button' onClick={() => setLogin(!login)}>Sign Up</button>
+                    <div class="ui inverted divider"></div>
+                    <div>
+                        <p>New here?</p>
+                        <button class={darkMode?"ui inverted green button":"ui green button"}
+                        onClick={() => setLogin(!login)}>Sign Up</button>
+                    </div>
                 </>
             ) :(
                 <>
                     <SignUpForm
                     darkMode={darkMode}
                     onLogin={onLogin} />
-                    <p>Already have an account?</p>
-                    <button className='ui button' onClick={() => setLogin(!login)}>Login</button>
+                    <div class="ui inverted divider"></div>
+                    <div>
+                        <p>Already have an account?</p>
+                        <button class={darkMode?"ui inverted green button":"ui green button"}
+                        onClick={() => setLogin(!login)}>Login</button>
+                    </div>
                 </>
             )}
         </div>

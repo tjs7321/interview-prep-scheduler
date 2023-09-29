@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 
 import FollowToAddTile from "./FollowToAddTile"
 
-export default function PrepSessionUserListContainer(props) {
-    const {users, addingUsers, onClickAdd, session_id, onInvite} = props
+export default function PrepSessionUserListContainer({users, addingUsers, onClickAdd, session_id, onInvite, darkMode}) {
+
     const [following, setFollowing] = useState([])
 
     useEffect(()=> {
@@ -26,6 +26,7 @@ export default function PrepSessionUserListContainer(props) {
     const renderedFriendsList = toInvite.map(friend => {
         return (
                 <FollowToAddTile
+                darkMode={darkMode}
                 {...friend}
                 session_id={session_id}
                 key={friend.id}
@@ -38,23 +39,25 @@ export default function PrepSessionUserListContainer(props) {
 
     if (!addingUsers) {
         return (
-            <div className='userListContainer'>
+            <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
                 <h3>Attending:</h3>
                 <div className='sessionUserList'>
                     {renderedUserList}
                 </div>
                 <div className='editDeleteAddButtons'>
-                    <button className='ui button' onClick={onClickAdd}>Add friends...</button>
+                    <button class={darkMode?"ui inverted green button":"ui green button"}
+                    onClick={onClickAdd}>Add friends...</button>
                 </div>
             </div>
         )
     } else {
         return (
-            <div className='userListContainer'>
+            <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
                 <div className='editDeleteAddButtons'>
-                    <button className='ui button' onClick={onClickAdd}>Done</button>
+                    <button class={darkMode?"ui inverted green button":"ui green button"}
+                    onClick={onClickAdd}>Done</button>
                 </div>
-                <div>
+                <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
                     <h2 className='usersToAdd'>Your follows: </h2>
                 </div>
                 <div class="ui grid">

@@ -29,7 +29,7 @@ function FriendCard({id, username, email, handleRemoveFriend, friend, darkMode})
                     <div class="center aligned description">{email}</div>
                 </div>
                 <div
-                class="ui bottom attached button"
+                class={darkMode?"ui secondary button":"ui inverted secondary button"}
                 onClick={handleRemoveClick}
                 >Unfollow</div>
             </div>

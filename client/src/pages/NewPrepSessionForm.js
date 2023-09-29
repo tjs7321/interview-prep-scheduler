@@ -5,7 +5,7 @@ import "react-datetime/css/react-datetime.css";
 
 import ErrorMessage from '../components/ErrorMessage'
 
-function NewPrepSessionForm() {
+function NewPrepSessionForm({darkMode}) {
     const prepSessionFormEmpty = {
         title: "",
         description: "",
@@ -100,12 +100,12 @@ function NewPrepSessionForm() {
     }
 
     return (
-        <div>
+        <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
             <h2>New Prep Session Form</h2>
             <ErrorMessage error={errorMessage}/>
             <div>
                 <form onSubmit={handleFormSubmit}>
-                    <div>
+                    <div class={darkMode?"ui inverted input":"ui input"}>
                         <input
                         style={{margin:"3px"}}
                         required
@@ -115,7 +115,8 @@ function NewPrepSessionForm() {
                         onChange={handleTextChange}
                         value={newPrepSession.title}/>
                     </div>
-                    <div>
+                    <div class="ui inverted divider"></div>
+                    <div class={darkMode?"ui inverted input":"ui input"}>
                         <input
                         style={{margin:"3px"}}
                         required
@@ -125,8 +126,8 @@ function NewPrepSessionForm() {
                         onChange={handleTextChange}
                         value={newPrepSession.description}/>
                     </div>
-                    
-                    <div>
+                    <div class="ui inverted divider"></div>
+                    <div class={darkMode?"ui inverted input":"ui input"}>
                         <Datetime 
                             onChange={handleStartChange}
                             value={newPrepSession.start}
@@ -134,8 +135,9 @@ function NewPrepSessionForm() {
                             inputProps={{placeholder:"Start Time"}}
                         />
                     </div>
-                    <div>
-                        <Datetime 
+                    <div class="ui inverted divider"></div>
+                    <div class={darkMode?"ui inverted input":"ui input"}>
+                        <Datetime
                             onChange={handleEndChange}
                             value={newPrepSession.end}
                             isValidDate={isValidEnd}
@@ -143,8 +145,10 @@ function NewPrepSessionForm() {
                             inputProps={{placeholder:"End Time"}}
                         />
                     </div>
+                    <div class="ui inverted divider"></div>
                     
                 <button
+                class={darkMode?"ui inverted primary button":"ui primary button"}
                 type="submit"
                 >Submit</button>
                 </form>
