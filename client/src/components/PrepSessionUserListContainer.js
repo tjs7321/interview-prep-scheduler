@@ -39,8 +39,10 @@ export default function PrepSessionUserListContainer(props) {
     if (!addingUsers) {
         return (
             <div>
-                <button onClick={onClickAdd}>Add friends...</button>
-                <ul>
+                <div className='editDeleteAddButtons'>
+                    <button onClick={onClickAdd}>Add friends...</button>
+                </div>
+                <ul className='sessionUserList'>
                     {renderedUserList}
                 </ul>
             </div>
@@ -48,8 +50,12 @@ export default function PrepSessionUserListContainer(props) {
     } else {
         return (
             <div>
-                <button onClick={onClickAdd}>Done</button>
-                <h4>Your follows: </h4>
+                <div className='editDeleteAddButtons'>
+                    <button onClick={onClickAdd}>Done</button>
+                </div>
+                <div>
+                    <h2 className='usersToAdd'>Your follows: </h2>
+                </div>
                 <div class="ui grid">
                     {renderedFriendsList}
                 </div>

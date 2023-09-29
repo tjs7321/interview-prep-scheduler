@@ -5,3 +5,38 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+.sessionDetailContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem
+}
+
+.sessionTitle {
+  padding: 1rem;
+  color: var(--header)
+}
+
+.sessionDescription {
+  padding: 1rem;
+  max-width: 500px;
+}
+
+.editDeleteAddButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 1rem
+}
+
+.sessionUserList {
+  list-style-type: none;
+  margin: 1rem
+}
+
+.usersToAdd {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 1rem
+}
