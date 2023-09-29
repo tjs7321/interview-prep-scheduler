@@ -5,9 +5,8 @@ import moment from 'moment-timezone'
 
 import ErrorMessage from './ErrorMessage';
 
-export default function PrepSessionEdit(props) {
+export default function PrepSessionEdit({sessionInfo, onSubmit, onCancel, darkMode}) {
 
-    const {sessionInfo, onSubmit, onCancel} = props
     
     const [formData, setFormData] = useState({
         title: sessionInfo['title'],
@@ -79,7 +78,7 @@ export default function PrepSessionEdit(props) {
             <div>
                 <form onSubmit={handleSubmit} className='ui form'>
                     <div className='field'>
-                        <label>Event Title</label>
+                        <h4>Event Title</h4>
                         <input
                         style={{margin:"3px"}}
                         required
@@ -89,8 +88,9 @@ export default function PrepSessionEdit(props) {
                         onChange={handleTextChange}
                         value={formData.title}/>
                     </div>
+                    <div class="ui inverted divider"></div>
                     <div className='field'>
-                        <label>Description</label>
+                        <h4>Description</h4>
                         <textarea
                         rows='4'
                         style={{margin:"3px"}}
@@ -101,9 +101,9 @@ export default function PrepSessionEdit(props) {
                         onChange={handleTextChange}
                         value={formData.description}/>
                     </div>
-                    
+                    <div class="ui inverted divider"></div>
                     <div>
-                        <label>Start</label>
+                        <h4>Start</h4>
                         <Datetime 
                             onChange={handleStartChange}
                             value={formData.start}
@@ -111,8 +111,9 @@ export default function PrepSessionEdit(props) {
                             inputProps={{placeholder:"Start Time"}}
                         />
                     </div>
+                    <div class="ui inverted divider"></div>
                     <div>
-                        <label>End</label>
+                        <h4>End</h4>
                         <Datetime 
                             onChange={handleEndChange}
                             value={formData.end}
@@ -123,12 +124,12 @@ export default function PrepSessionEdit(props) {
                     </div>
                     <div className='submitCancelButtons'>
                         <button
-                        className='ui button'
+                        class={darkMode?"ui inverted primary button":"ui primary button"}
                         type="submit"
                         >Submit</button>
                         
                         <button
-                        className='ui button'
+                        class={darkMode?"ui inverted red button":"ui red button"}
                         onClick={onCancel}>Cancel</button>
                     </div>
                 </form>

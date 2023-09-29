@@ -17,7 +17,7 @@ function LoginSignUpPage({onLogin, darkMode}) {
                     <div class="ui inverted divider"></div>
                     <div>
                         <p>New here?</p>
-                        <button class={darkMode?"ui inverted secondary button":"ui secondary button"}
+                        <button class={darkMode?"ui inverted green button":"ui green button"}
                         onClick={() => setLogin(!login)}>Sign Up</button>
                     </div>
                 </>
@@ -29,7 +29,7 @@ function LoginSignUpPage({onLogin, darkMode}) {
                     <div class="ui inverted divider"></div>
                     <div>
                         <p>Already have an account?</p>
-                        <button class={darkMode?"ui inverted secondary button":"ui secondary button"}
+                        <button class={darkMode?"ui inverted green button":"ui green button"}
                         onClick={() => setLogin(!login)}>Login</button>
                     </div>
                 </>

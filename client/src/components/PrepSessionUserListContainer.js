@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 
 import FollowToAddTile from "./FollowToAddTile"
 
-export default function PrepSessionUserListContainer(props) {
-    const {users, addingUsers, onClickAdd, session_id, onInvite, darkMode} = props
+export default function PrepSessionUserListContainer({users, addingUsers, onClickAdd, session_id, onInvite, darkMode}) {
+
     const [following, setFollowing] = useState([])
 
     useEffect(()=> {
@@ -26,6 +26,7 @@ export default function PrepSessionUserListContainer(props) {
     const renderedFriendsList = toInvite.map(friend => {
         return (
                 <FollowToAddTile
+                darkMode={darkMode}
                 {...friend}
                 session_id={session_id}
                 key={friend.id}
@@ -53,7 +54,7 @@ export default function PrepSessionUserListContainer(props) {
         return (
             <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
                 <div className='editDeleteAddButtons'>
-                    <button class={darkMode?"ui inverted primary button":"ui primary button"}
+                    <button class={darkMode?"ui inverted green button":"ui green button"}
                     onClick={onClickAdd}>Done</button>
                 </div>
                 <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>

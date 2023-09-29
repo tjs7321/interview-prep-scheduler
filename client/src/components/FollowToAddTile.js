@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-export default function FollowToAddTile({id, username, email, session_id,onInvite}) {
+export default function FollowToAddTile({id, username, email, session_id,onInvite, darkMode}) {
 
     
     function handleAddToSession(){
@@ -26,13 +26,15 @@ export default function FollowToAddTile({id, username, email, session_id,onInvit
     }
 
     return(
-        <div class="four wide column">
-            <p>{username}</p>
-            <p>{email}</p>
-            <button
-            class="ui button"
-            onClick={handleAddToSession}
-            >Invite</button>
+        <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
+            <div class="four wide column">
+                <p>{username}</p>
+                <p>{email}</p>
+                <button
+                class={darkMode?"ui inverted yellow button":"ui yellow button"}
+                onClick={handleAddToSession}
+                >Invite</button>
+            </div>
         </div>
     )
 }

@@ -84,7 +84,7 @@ function SignUpForm({onLogin, darkMode}) {
                     </div>
                     <div class="ui inverted divider"></div>
                 <button
-                class={darkMode?"ui primary button":"ui inverted primary button"}
+                class={darkMode?"ui inverted primary button":"ui primary button"}
                 type="submit"
                 >Submit</button>
                 </form>
