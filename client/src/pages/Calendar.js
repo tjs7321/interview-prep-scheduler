@@ -25,8 +25,8 @@ function Calendar({userID}) {
     }
 
     return(
-        <div>
-            <h1>Calendar Page</h1>
+        <div className='calendarPage'>
+            <h1>Your Calendar</h1>
             <NavLink
             to="/newprepsession" exact
             >Add New Event</NavLink>

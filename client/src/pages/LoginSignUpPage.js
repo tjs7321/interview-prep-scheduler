@@ -7,7 +7,7 @@ function LoginSignUpPage({onLogin, darkMode}) {
     const [login, setLogin] = useState(true)
 
     return (
-        <>
+        <div className='loginSignup'>
             <h1>{login? "Login" : "Sign Up"}</h1>
             {login? (
                 <>
@@ -15,7 +15,7 @@ function LoginSignUpPage({onLogin, darkMode}) {
                     darkMode={darkMode}
                     onLogin={onLogin} />
                     <p>New here?</p>
-                    <button onClick={() => setLogin(!login)}>Sign Up</button>
+                    <button className='ui button' onClick={() => setLogin(!login)}>Sign Up</button>
                 </>
             ) :(
                 <>
@@ -23,10 +23,10 @@ function LoginSignUpPage({onLogin, darkMode}) {
                     darkMode={darkMode}
                     onLogin={onLogin} />
                     <p>Already have an account?</p>
-                    <button onClick={() => setLogin(!login)}>Login</button>
+                    <button className='ui button' onClick={() => setLogin(!login)}>Login</button>
                 </>
             )}
-        </>
+        </div>
     )
 }
 

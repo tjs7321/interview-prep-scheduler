@@ -14,19 +14,19 @@ export default function PrepSessionDetailContainer(props) {
             <div>
                 <h1 className='sessionTitle'>{sessionInfo['title']}</h1>
                 <div className='editDeleteAddButtons'>
-                    <button onClick={onClickDelete}>Click to Delete</button>
-                    <button onClick={onClickEdit}>Click to Edit</button>
+                    <button className='ui button' onClick={onClickDelete}>Click to Delete</button>
+                    <button className='ui button' onClick={onClickEdit}>Click to Edit</button>
                 </div>
                 <div className='sessionDescription'>
                     <p>{sessionInfo['description']}</p>
                 </div>
                 
                 
-                <ul>
-                    <li>{`Start: ${formatDate(sessionInfo['start'])}`}</li>
-                    <li>{`End: ${formatDate(sessionInfo['end'])}`}</li>
+                <div className='startEndTime'>
+                    <p>{`Start: ${formatDate(sessionInfo['start'])}`}</p>
+                    <p>{`End: ${formatDate(sessionInfo['end'])}`}</p>
                     
-                </ul>
+                </div>
             </div>
         )
     } else {
