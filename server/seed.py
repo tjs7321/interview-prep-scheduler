@@ -25,7 +25,7 @@ with app.app_context():
     users = []
     usernames = []
 
-    user1= User(username='John Carges',email='johncarges@gmail.com')
+    user1= User(username='johncarges',email='johncarges@gmail.com')
     user1.password_hash = 'asdfg'
 
     user2 = User(username='Teddy Smith', email='tjs7321@gmail.com')

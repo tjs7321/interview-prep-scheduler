@@ -51,7 +51,7 @@ export default function SessionDetailPage() {
             fetch(`/prep_sessions/${id}`, {
                 method: "DELETE",
             })
-            .then(r=>r.json())
+            //.then(r=>r.json())            // Comment this out?
             .then(history.goBack())         // DOES THIS WORK?
         }
     }
@@ -105,8 +105,7 @@ export default function SessionDetailPage() {
     if (sessionInfo['title']) {
         //console.log(`sessionInfo['users']: ${sessionInfo['users']}`)
         return (
-            <div>
-                <h1>Session Detail Page for session {id}!</h1>
+            <div className='sessionDetailContainer'>
                 <PrepSessionDetailContainer
                     sessionInfo={sessionInfo}
                     handleSessionUpdate={handleSessionUpdate}
