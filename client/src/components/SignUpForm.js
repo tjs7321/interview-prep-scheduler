@@ -36,7 +36,7 @@ function SignUpForm({onLogin, darkMode}) {
         }
     
     return (
-        <div className={darkMode?"ui inverted raised segment":"ui raised segment"}>
+        <div>
             <div>
                 <form onSubmit={handleFormSubmit}>
                     <div class={darkMode?"ui inverted input":"ui input"}>

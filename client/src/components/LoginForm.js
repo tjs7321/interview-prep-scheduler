@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
 
-function LoginForm({onLogin}) {
+function LoginForm({onLogin, darkMode}) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
@@ -31,7 +31,7 @@ function LoginForm({onLogin}) {
         <div>
             <div>
                 <form onSubmit={handleFormSubmit}>
-                    <div>
+                    <div class={darkMode?"ui inverted input":"ui input"}>
                         <input
                         required
                         type="text"
@@ -41,7 +41,8 @@ function LoginForm({onLogin}) {
                         onChange={(e) => setUsername(e.target.value)}
                         />
                     </div>
-                    <div>
+                    <div class="ui inverted divider"></div>
+                    <div class={darkMode?"ui inverted input":"ui input"}>
                         <input
                         required
                         type="password"
@@ -51,8 +52,9 @@ function LoginForm({onLogin}) {
                         onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
+                    <div class="ui inverted divider"></div>
                 <button
-                className='ui button'
+                class={darkMode?"ui primary button":"ui inverted primary button"}
                 type="submit"
                 >Submit</button>
                 </form>

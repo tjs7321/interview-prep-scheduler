@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import PrepSessionDetailContainer from "../components/PrepSessionDetailContainer";
 import PrepSessionUserListContainer from "../components/PrepSessionUserListContainer";
 
-export default function SessionDetailPage() {
+export default function SessionDetailPage({darkMode}) {
 
     const {id} = useParams()
     const [sessionInfo, setSessionInfo] = useState({
@@ -105,8 +105,9 @@ export default function SessionDetailPage() {
     if (sessionInfo['title']) {
         //console.log(`sessionInfo['users']: ${sessionInfo['users']}`)
         return (
-            <div className='sessionDetailContainer'>
+            <div class={darkMode?"ui inverted raised segment":"ui raised segment"}>
                 <PrepSessionDetailContainer
+                    darkMode={darkMode}
                     sessionInfo={sessionInfo}
                     handleSessionUpdate={handleSessionUpdate}
                     editing={editing}
@@ -114,6 +115,7 @@ export default function SessionDetailPage() {
                     onClickEdit={onClickEdit}
                 />
                 <PrepSessionUserListContainer
+                    darkMode={darkMode}
                     users={sessionUsers}
                     addingUsers={addingUsers}
                     onClickAdd={onClickAddUsers}
